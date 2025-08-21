@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack://[project]/components/styles/DatePicker.module.css"],"sourcesContent":[".picker_container {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: flex-end;\r\n  row-gap: 0.3rem;\r\n  background-color: aliceblue;\r\n  padding: 0.6rem;\r\n  border-radius: 5px;\r\n}\r\n\r\n.btn {\r\n  width: 50%;\r\n  border: none;\r\n  padding: 0.3rem;\r\n  border-radius: 3px;\r\n  cursor: pointer;\r\n  font-family: Verdana;\r\n  font-weight: bold;\r\n  background-color: #3a1c50;\r\n}\r\n"],"names":[],"mappings":"AAAA;;;;;;;;;;AAUA"}},
-    {"offset": {"line": 21, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}

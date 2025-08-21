@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack://[project]/app/mission/unassigned/unassigned.module.css"],"sourcesContent":[".headerContainer {\r\n  width: 100%;\r\n  height: 140px;\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\r\n  background-color: var(--header);\r\n  z-index: 1000;\r\n  position: fixed;\r\n  top: 0;\r\n}\r\n\r\n.headerFilterContainer {\r\n  display: flex;\r\n  column-gap: 0.3rem;\r\n}\r\n\r\n.titleContainer {\r\n  display: flex;\r\n  justify-content: flex-start;\r\n  align-items: flex-start;\r\n  flex-direction: column;\r\n}\r\n\r\n.title {\r\n  font-weight: bold;\r\n}\r\n\r\n.headerBtn {\r\n  background-color: #faf0ca;\r\n  color: red;\r\n}\r\n\r\n.headerButton {\r\n  background-color: \"#FAF0CA\";\r\n  color: \"#3a1c50\";\r\n  font-weight: bold;\r\n  font-family: Verdana, Geneva, Tahoma, sans-serif;\r\n}\r\n\r\n@media (max-width: 768px) {\r\n  .headerContainer {\r\n    flex-direction: column;\r\n    height: 200px;\r\n  }\r\n  .container {\r\n    padding-top: 200px;\r\n  }\r\n}\r\n\r\n@media (max-width: 590px) {\r\n  .headerContainer {\r\n    height: 240px;\r\n  }\r\n  .container {\r\n    padding-top: 240px;\r\n  }\r\n}\r\n"],"names":[],"mappings":"AAAA;;;;;;;;;;;;AAYA;;;;;AAKA;;;;;;;AAOA;;;;AAIA;;;;;AAKA;;;;;;;AAOA;EACE;;;;;EAIA;;;;;AAKF;EACE;;;;EAGA"}},
-    {"offset": {"line": 61, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}
