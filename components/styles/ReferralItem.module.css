@@ -1,0 +1,52 @@
+.listItem {
+  list-style-type: none;
+}
+
+.spanItem {
+  display: inline-block;
+  margin-bottom: 0.3rem;
+
+  text-decoration: inherit;
+  color: var(--font-color);
+}
+
+.spanLastAttempt {
+  display: inline-block;
+  margin-bottom: 0.3rem;
+
+  text-decoration: inherit;
+  color: white;
+  font-weight: bold;
+  font-size: small;
+  background-color: red;
+  padding: 0.3rem 0.5rem;
+  border-radius: 5px;
+}
+
+.spanContainer {
+  margin: 0;
+  padding: 0;
+}
+
+.linkItem:link {
+  font-weight: 600;
+  color: blueviolet;
+}
+
+.linkItem:visited {
+  font-weight: 600;
+  color: blueviolet;
+}
+
+.wrap {
+  display: inline-block;
+  align-items: center;
+}
+
+.wrap a {
+  margin-right: 10px;
+}
+
+.container {
+  margin-bottom: 0.5rem;
+}

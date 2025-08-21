@@ -1,0 +1,15 @@
+.spanItem {
+  display: inline-block;
+  margin-bottom: 0.3rem;
+
+  text-decoration: inherit;
+  color: white;
+}
+
+.container {
+  width: 35%;
+  background-color: var(--header);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}

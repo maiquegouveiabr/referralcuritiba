@@ -1,0 +1,8 @@
+.btn_container {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  row-gap: 0.3rem;
+  border-radius: 5px;
+}

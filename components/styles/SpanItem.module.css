@@ -1,0 +1,11 @@
+.container {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+
+.spanItem {
+  color: var(--font-color);
+  font-size: 16px;
+
+  font-weight: bold;
+}

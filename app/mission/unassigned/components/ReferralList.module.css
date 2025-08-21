@@ -1,0 +1,10 @@
+.container {
+  /* background-image: url("../img/home.png");
+  background-size: auto;
+  background-position: 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed; */
+  background-color: var(--bgColor);
+  min-height: 100vh;
+  padding-top: 140px;
+}

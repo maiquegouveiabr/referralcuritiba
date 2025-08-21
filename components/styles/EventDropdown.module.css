@@ -1,0 +1,57 @@
+.mainContainer {
+  background-color: var(--header);
+  max-width: 60%;
+  width: fit-content;
+  padding: 0.7rem;
+  border-radius: 5px;
+}
+
+.mainContainer p {
+  margin: 0;
+  color: white;
+}
+
+.title {
+  font-weight: bold;
+  padding-bottom: 10px;
+  color: var(--background);
+}
+
+.container {
+  display: flex;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  padding: 0.5rem;
+  column-gap: 0.5rem;
+
+  background-color: white;
+  border-radius: 5px;
+}
+
+.container::-webkit-scrollbar {
+  height: 12px; /* Visible scrollbar */
+}
+
+.container::-webkit-scrollbar-thumb {
+  cursor: grab;
+  background: #888;
+  border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
+.itemContainer {
+  background-color: var(--background);
+  padding: 0.5rem;
+  flex: 0 0 auto; /* Ensures items don't shrink */
+  min-width: fit-content;
+  border-radius: 5px;
+}
+
+.pItem {
+  color: "white";
+  font-weight: bold;
+}

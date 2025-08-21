@@ -1,0 +1,11 @@
+.btn {
+  width: fit-content;
+  background-color: aliceblue;
+  color: #3a1c50;
+  font-weight: bold;
+  font-family: Verdana;
+  cursor: pointer;
+  border: none;
+  border-radius: 2px;
+  padding: 0.23rem;
+}

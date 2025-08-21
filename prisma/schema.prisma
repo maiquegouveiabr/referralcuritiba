@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model area {
+  id        Int         @id
+  name      String
+  zone_id   Int
+  is_active Boolean     @default(true)
+  stake_id  Int?
+  zone      zone        @relation(fields: [zone_id], references: [zone_id], onDelete: Cascade, onUpdate: NoAction)
+  record    record[]
+  reference reference[]
+}
+
+model reference {
+  id        String   @id
+  sent_date DateTime @default(now()) @db.Timestamp(6)
+  name      String
+  area_id   Int
+  other     String?
+  who_sent  String
+  offer     String?
+  phone     String?
+  area      area     @relation(fields: [area_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model zone {
+  zone_id      Int      @id(map: "Zone_pkey") @default(autoincrement())
+  name         String   @db.VarChar(255)
+  create_date  DateTime @default(now()) @db.Timestamp(6)
+  is_zone_real Boolean  @default(true)
+  area         area[]
+}
+
+model user {
+  user_id     Int      @id @default(autoincrement())
+  name        String   @unique
+  is_active   Boolean? @default(true)
+  create_date DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model uba_area {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model offer {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model stop_teaching_reason {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model baptism_record {
+  id                    Int      @id @default(autoincrement())
+  record_id             Int
+  person_name           String
+  created_at            DateTime @default(now()) @db.Timestamp(6)
+  finding_source_status Int      @default(1)
+  record                record   @relation(fields: [record_id], references: [id], onDelete: Cascade)
+}
+
+model expense_record {
+  id              Int          @id @default(autoincrement())
+  title           String
+  description     String
+  creator         String
+  item_expense_id Int
+  created_at      DateTime     @default(now()) @db.Timestamp(6)
+  paid_value      Float        @default(0)
+  updated_at      DateTime     @default(now()) @db.Timestamp(6)
+  item_expense    item_expense @relation(fields: [item_expense_id], references: [id], onDelete: Cascade)
+}
+
+model finding_source_type {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model item_expense {
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  price          Float            @default(0)
+  created_at     DateTime         @default(now()) @db.Timestamp(6)
+  expense_record expense_record[]
+}
+
+model marked_baptism_record {
+  id                    Int      @id @default(autoincrement())
+  record_id             Int
+  person_name           String
+  created_at            DateTime @default(now()) @db.Timestamp(6)
+  finding_source_status Int      @default(1)
+  record                record   @relation(fields: [record_id], references: [id], onDelete: Cascade)
+}
+
+model record {
+  id                              Int                     @id(map: "records_pkey") @default(autoincrement())
+  area_id                         Int
+  baptism                         Int                     @default(0)
+  baptism_invite                  Int                     @default(0)
+  contacts                        Int                     @default(0)
+  convert_lessons                 Int                     @default(0)
+  converts_sacrament_meeting      Int                     @default(0)
+  converts_temple                 Int                     @default(0)
+  friends_sacrament_meeting       Int                     @default(0)
+  marked_baptism                  Int                     @default(0)
+  marked_baptism_total            Int                     @default(0)
+  media_friends_sacrament_meeting Int                     @default(0)
+  member_lessons                  Int                     @default(0)
+  new_friends                     Int                     @default(0)
+  created_at                      DateTime                @default(now()) @db.Timestamp(6)
+  missionary_email                String
+  baptism_record                  baptism_record[]
+  marked_baptism_record           marked_baptism_record[]
+  area                            area                    @relation(fields: [area_id], references: [id], onDelete: Cascade, map: "records_area_id_fkey")
+}
+
+model stake {
+  id   Int    @id(map: "stakes_pkey") @default(autoincrement())
+  name String @unique(map: "stakes_name_key")
+}
