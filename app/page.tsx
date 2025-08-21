@@ -54,7 +54,7 @@ export default function Page() {
     <div className={styles.container}>
       <div id="form" className="grid gap-5">
         <div className="grid max-w-sm items-center gap-1.5">
-          <Label className="font-['Poppins-SemiBold',Helvetica] text-lg text-white font-semibold" htmlFor="username">
+          <Label className=" text-lg text-white font-semibold" htmlFor="username">
             Username
           </Label>
           <Input
@@ -66,7 +66,7 @@ export default function Page() {
           />
         </div>
         <div className="grid max-w-sm items-center gap-1.5">
-          <Label className="font-['Poppins-SemiBold',Helvetica] text-lg text-white font-semibold" htmlFor="password">
+          <Label className=" text-lg text-white font-semibold" htmlFor="password">
             Password
           </Label>
           <div className="relative w-full">
@@ -82,7 +82,7 @@ export default function Page() {
           </div>
         </div>
         <Button
-          className="w-[300px] cursor-pointer bg-[#95C168] hover:bg-[#95C168] rounded-[3px] font-['Poppins-SemiBold',Helvetica] font-semibold text-sm"
+          className="w-[300px] cursor-pointer text-[var(--header)] bg-white hover:bg-white rounded-[3px]  font-semibold text-sm"
           disabled={isLoading}
           onClick={handleLogin}
         >
