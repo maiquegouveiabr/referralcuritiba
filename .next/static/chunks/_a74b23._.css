@@ -1,0 +1,95 @@
+/* [project]/app/mission/unassigned/unassigned.module.css [app-client] (css) */
+.unassigned-module__453cEq__headerContainer {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--header);
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+}
+
+.unassigned-module__453cEq__headerFilterContainer {
+  display: flex;
+  column-gap: .3rem;
+}
+
+.unassigned-module__453cEq__titleContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.unassigned-module__453cEq__title {
+  font-weight: bold;
+}
+
+.unassigned-module__453cEq__headerBtn {
+  background-color: #faf0ca;
+  color: red;
+}
+
+.unassigned-module__453cEq__headerButton {
+  background-color: "#FAF0CA";
+  color: "#3a1c50";
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@media (width <= 768px) {
+  .unassigned-module__453cEq__headerContainer {
+    flex-direction: column;
+    height: 200px;
+  }
+
+  .unassigned-module__453cEq__container {
+    padding-top: 200px;
+  }
+}
+
+@media (width <= 590px) {
+  .unassigned-module__453cEq__headerContainer {
+    height: 240px;
+  }
+
+  .unassigned-module__453cEq__container {
+    padding-top: 240px;
+  }
+}
+
+
+/* [project]/components/styles/DatePicker.module.css [app-client] (css) */
+.DatePicker-module__CLPeCW__picker_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  row-gap: .3rem;
+  background-color: #f0f8ff;
+  padding: .6rem;
+  border-radius: 5px;
+}
+
+.DatePicker-module__CLPeCW__btn {
+  width: 50%;
+  border: none;
+  padding: .3rem;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: Verdana;
+  font-weight: bold;
+  background-color: #3a1c50;
+}
+
+
+/* [project]/app/mission/unassigned/components/ReferralList.module.css [app-client] (css) */
+.ReferralList-module__fEL8gW__container {
+  background-color: var(--bgColor);
+  min-height: 100vh;
+  padding-top: 140px;
+}
+
+
+/*# sourceMappingURL=_a74b23._.css.map*/

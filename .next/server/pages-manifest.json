@@ -1,0 +1,7 @@
+{
+  "/api/referrals/complete": "pages/api/referrals/complete.js",
+  "/api/referrals/phone": "pages/api/referrals/phone.js",
+  "/api/db/phoneMatch": "pages/api/db/phoneMatch.js",
+  "/api/referrals/offer": "pages/api/referrals/offer.js",
+  "/api/db/referralExist": "pages/api/db/referralExist.js"
+}
