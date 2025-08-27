@@ -22,7 +22,7 @@ export default function Page() {
     }
     try {
       setIsLoading(true);
-      const response = await fetch("/api/mission/cookies", {
+      const response = await fetch("https://cookies-api-9ptk.onrender.com/api/cookies", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

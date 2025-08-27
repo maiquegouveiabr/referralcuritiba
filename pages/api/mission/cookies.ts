@@ -1,50 +1,44 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import puppeteer from "puppeteer";
+import PQueue from "p-queue";
 
-// oauth-abw_refresh_token
-// oauth-abw_church_account_id
+const BROWSERLESS_API = process.env.BROWSERLESS_API;
+const queue = new PQueue({ concurrency: 1 }); // adjust based on capacity
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const BROWSERLESS_API = process.env.BROWSERLESS_API;
-  const { username } = req.body;
-  const { password } = req.body;
-  const browser = await puppeteer.connect({
-    browserWSEndpoint: BROWSERLESS_API,
-  });
+async function handleLogin(req: NextApiRequest, res: NextApiResponse) {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json({ message: "Missing credentials" });
+  }
+
+  const browser = await puppeteer.connect({ browserWSEndpoint: BROWSERLESS_API });
+  let page;
 
   try {
-    if (username && password) {
-      const page = await browser.newPage();
-      await page.goto("https://referralmanager.churchofjesuschrist.org/");
+    page = await browser.newPage();
+    await page.goto("https://referralmanager.churchofjesuschrist.org/");
 
-      await page.waitForSelector("#username-input", { visible: true, timeout: 3000 });
-      await page.type("#username-input", String(username));
-      await page.waitForSelector("#button-primary", {
-        visible: true,
-      });
-      await page.click("#button-primary");
-      await page.waitForSelector("#password-input", { visible: true, timeout: 3000 });
-      await page.type("#password-input", String(password));
-      await page.waitForSelector("#button-primary", {
-        visible: true,
-      });
-      await page.click("#button-primary");
-      await page.waitForResponse((response) => response.url().includes("state") && response.status() === 200);
+    await page.waitForSelector("#username-input", { visible: true, timeout: 10000 });
+    await page.type("#username-input", String(username));
+    await page.click("#button-primary");
 
-      const cookies = await browser.cookies();
+    await page.waitForSelector("#password-input", { visible: true, timeout: 10000 });
+    await page.type("#password-input", String(password));
+    await page.click("#button-primary");
 
-      if (cookies) {
-        res.status(200).json(cookies);
-      } else {
-        res.status(404).json({ message: "No cookies found" });
-      }
-    } else {
-      res.status(404).json({ message: "No username or password found" });
-    }
+    await page.waitForResponse((response) => response.url().includes("state") && response.status() === 200, { timeout: 15000 });
+
+    const cookies = await page.cookies();
+    res.status(200).json(cookies);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred" });
   } finally {
-    if (browser.disconnect) browser.disconnect(); // safer for remote browser connections
+    if (page) await page.close();
+    if (browser.disconnect) browser.disconnect();
   }
+}
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await queue.add(() => handleLogin(req, res));
 };
