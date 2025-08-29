@@ -129,3 +129,10 @@ model stake {
   id   Int    @id(map: "stakes_pkey") @default(autoincrement())
   name String @unique(map: "stakes_name_key")
 }
+
+model logged_user {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  refresh_token String   @unique
+  created_at    DateTime @default(now()) @db.Timestamp(6)
+}
