@@ -10,7 +10,6 @@ import DeleteButton from "./DeleteButton";
 import SendButton from "./SendButton";
 
 type Props = {
-  dataLoaded: boolean;
   stateReferrals: Referral[];
   setReferralsState: Dispatch<SetStateAction<Referral[]>>;
   refreshToken: string;
@@ -18,22 +17,22 @@ type Props = {
   setDialogOpen: (value: boolean) => void;
 };
 
-function ReferralList({ dataLoaded, refreshToken, stateReferrals, setReferralsState, setCurrentReferral, setDialogOpen }: Props) {
+function ReferralList({ refreshToken, stateReferrals, setReferralsState, setCurrentReferral, setDialogOpen }: Props) {
   const referralItems = useMemo(() => {
     return stateReferrals.map((ref) => (
       <ReferralItem key={ref.personGuid} ref={ref}>
         <div className="flex flex-row gap-1">
           <DeleteButton referral={ref} setReferralsState={setReferralsState} />
           {ref.contactInfo && <CopyButton referral={ref} />}
-          {dataLoaded && !ref.contactInfo && <PhoneButton refreshToken={refreshToken} referral={ref} setReferralsState={setReferralsState} />}
-          {dataLoaded && !ref.offerItem && !ref.personOffer && <OfferButton referral={ref} refreshToken={refreshToken} setReferralsState={setReferralsState} />}
+          {!ref.contactInfo && <PhoneButton refreshToken={refreshToken} referral={ref} setReferralsState={setReferralsState} />}
+          {!ref.offerItem && !ref.personOffer && <OfferButton referral={ref} refreshToken={refreshToken} setReferralsState={setReferralsState} />}
           {ref.contactInfo && !ref.sentStatus && (
             <SendButton referral={ref} setReferralsState={setReferralsState} setCurrentReferral={setCurrentReferral} setDialogOpen={setDialogOpen} />
           )}
         </div>
       </ReferralItem>
     ));
-  }, [dataLoaded, refreshToken, setCurrentReferral, setDialogOpen, setReferralsState, stateReferrals]);
+  }, [refreshToken, setCurrentReferral, setDialogOpen, setReferralsState, stateReferrals]);
 
   return (
     <div className={styles.container}>

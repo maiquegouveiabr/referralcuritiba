@@ -1,10 +1,10 @@
 import styles from "@/components/styles/EventDropdown.module.css";
-import { ContactAttempt } from "@/interfaces";
+import { Event } from "@/interfaces";
 import checkTimestampToday from "@/util/checkTimestampToday";
 import timestampToDate from "@/util/timestampToDate";
 
 type EventDropdownType = {
-  events: ContactAttempt[];
+  events: Event[];
 };
 
 export default function EventDropdown({ events }: EventDropdownType) {

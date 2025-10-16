@@ -40,7 +40,6 @@ type Props = {
 };
 
 export default function PageClient({ refreshToken, areas, offers, referrals, stopTeachingReasons, uba, users }: Props) {
-  const [dataLoaded, setDataLoaded] = useState(false);
   const [referralsState, setReferralsState] = useState(referrals);
   const [activeFilter, setActiveFilter] = useState(0);
   const [isDescendingDateOrder, setIsDescendingDateOrder] = useState(true);
@@ -142,10 +141,7 @@ export default function PageClient({ refreshToken, areas, offers, referrals, sto
           </div>
           <div className={styles.headerFilterContainer}>
             <HeaderButtonGroup
-              dataLoaded={dataLoaded}
-              setDataLoaded={setDataLoaded}
               referralsState={referralsState}
-              refreshToken={refreshToken}
               setReferralsState={setReferralsState}
               onSetDateOrder={handleSetDateOrder}
               onThreePlusEvents={handleTwoPlusEvents}
@@ -156,7 +152,6 @@ export default function PageClient({ refreshToken, areas, offers, referrals, sto
         </div>
         <ReferralList
           refreshToken={refreshToken}
-          dataLoaded={dataLoaded}
           setCurrentReferral={setCurrentReferral}
           setDialogOpen={setDialogOpen}
           stateReferrals={filtered}

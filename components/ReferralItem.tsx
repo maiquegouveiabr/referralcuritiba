@@ -26,15 +26,14 @@ function ReferralItem({ ref, children }: Props) {
           )}
           <CardDescription className="leading-tight text-[var(--font-color)]">{ref.address}</CardDescription>
           {ref.areaInfo?.proselytingAreas?.[0]?.name && (
-            <CardDescription className="leading-tight font-semibold text-[var(--font-color)]">
-              Suggested Area: {ref.areaInfo.proselytingAreas[0].name}
-            </CardDescription>
+            <CardDescription className="leading-tight text-[var(--font-color)]">Suggested Area: {ref.areaInfo.proselytingAreas[0].name}</CardDescription>
           )}
+          {ref.areaName && <CardDescription className="leading-tight text-[var(--font-color)]">Assigned Area: {ref.areaName}</CardDescription>}
           {ref.contactAttempts && ref.contactAttempts.length > 0 && <EventList events={ref.contactAttempts} />}
         </div>
         {children}
         {ref.phoneMatches && ref.phoneMatches.length > 0 && <PhoneMatchList data={ref.phoneMatches} />}
-        {ref.personOffer && ref.offerItem && <OfferItem ref={ref} />}
+        {ref.personOffer && (ref.offersTopic || ref.offerItem) && <OfferItem ref={ref} />}
       </Card>
     </li>
   );

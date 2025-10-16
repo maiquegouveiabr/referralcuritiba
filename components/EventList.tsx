@@ -1,15 +1,15 @@
-import { ContactAttempt } from "@/interfaces";
+import { Event } from "@/interfaces";
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import timestampToDate from "@/util/timestampToDate";
 import clsx from "clsx";
 import checkTimestampToday from "@/util/checkTimestampToday";
 
 type EventListProps = {
-  events: ContactAttempt[];
+  events: Event[];
 };
 
 type EventItemProps = {
-  event: ContactAttempt;
+  event: Event;
 };
 
 function EventItem({ event }: EventItemProps) {
