@@ -32,7 +32,7 @@ function ReferralItem({ ref, children }: Props) {
           {ref.contactAttempts && ref.contactAttempts.length > 0 && <EventList events={ref.contactAttempts} />}
         </div>
         {children}
-        {ref.phoneMatches && ref.phoneMatches.length > 0 && <PhoneMatchList data={ref.phoneMatches} />}
+        {ref.phoneMatches && ref.phoneMatches.length > 0 && <PhoneMatchList matches={ref.phoneMatches} />}
         {ref.personOffer && (ref.offersTopic || ref.offerItem) && <OfferItem ref={ref} />}
       </Card>
     </li>

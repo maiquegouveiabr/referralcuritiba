@@ -2,6 +2,8 @@ type Props = {
   phone: string;
   id: string;
   name: string;
+  area_name: string;
+  other: string;
 };
 
 export default async (phone: string): Promise<Props[] | []> => {
