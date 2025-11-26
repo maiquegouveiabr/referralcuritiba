@@ -282,34 +282,39 @@ export interface AreaInfo {
 }
 
 export interface OfferItem {
-  adConcept: string;
-  adGroup: string;
-  adPlacement: string;
-  adText: string;
-  adTopic: string;
-  adType: string;
-  adVendor: string;
-  boncomCampaign: string;
-  campaignName: string;
-  cid: string;
-  destinationURL: string;
-  displayUrl: string;
-  dynamicDescriptions: string[];
-  headline: string;
-  landingPage: string;
-  landingSite: string;
-  language: string;
-  mediaType: string;
-  previewImage: string;
-  searchLine1: string;
-  searchLine2: string;
-  summary: string;
-  videoName: string;
-  videoDistributionUrl: string;
-  videoHlsDistributionUrl: string;
-  videoMimeType: string;
-  videoThumbnailUrl: string;
-  videoCoverImageUrl: string;
+  vendor_name: string;
+  vendor_ad_id: string;
+  ad_name: string;
+  ad_headline: string;
+  ad_text: string;
+  ad_preview_link: string;
+  country_id: number;
+  ad_topic: string;
+  ad_video_name: string;
+  campaign_name: string;
+  ad_concept: string | null;
+  agency_campaign: string | null;
+  display_url: string | null;
+  landing_page: string | null;
+  search_line1: string | null;
+  search_line2: string | null;
+  video_distribution_url: string | null;
+  video_hls_distribution_url: string | null;
+  video_mime_type: string | null;
+  video_thumbnail_url: string | null;
+  video_cover_image_url: string | null;
+  dynamic_descriptions: string | null;
+  ad_type: string;
+  ad_destination_type: string;
+  agency_id: number;
+  agency_name: string;
+  ad_group: string;
+  adset_name: string;
+  media_type: string;
+  ad_language: string;
+  ad_site_url: string;
+  ad_destination_url: string;
+  call_to_action_type: string;
 }
 
 export interface PersonOffer {
