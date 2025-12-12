@@ -2,7 +2,6 @@
 import PageClient from "./PageClient";
 
 // Server APIS
-import { getReferrals } from "./api/getReferrals";
 import getUsers from "./api/getUsers";
 import getAreas from "./api/getAreas";
 import getUba from "./api/getUba";
@@ -11,6 +10,7 @@ import getStopReasons from "./api/getStopReasons";
 
 // External APIS
 import { redirect } from "next/navigation";
+import { getFirebaseConnection } from "./api/getFirebase";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ refreshToken?: string }> }) {
   const { refreshToken } = await searchParams;
@@ -18,8 +18,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ r
     redirect("/");
   }
 
-  const [referrals, users, areas, uba, offers, stopReasons] = await Promise.all([
-    getReferrals(refreshToken),
+  const [firebaseConnection, users, areas, uba, offers, stopReasons] = await Promise.all([
+    getFirebaseConnection(refreshToken),
     getUsers(),
     getAreas(),
     getUba(),
@@ -28,6 +28,14 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ r
   ]);
 
   return (
-    <PageClient areas={areas} offers={offers} referrals={referrals} stopTeachingReasons={stopReasons} uba={uba} users={users} refreshToken={refreshToken} />
+    <PageClient
+      areas={areas}
+      offers={offers}
+      stopTeachingReasons={stopReasons}
+      uba={uba}
+      users={users}
+      refreshToken={refreshToken}
+      firebaseConnection={firebaseConnection}
+    />
   );
 }

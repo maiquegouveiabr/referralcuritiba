@@ -38,13 +38,25 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.containerClaimed {
+  padding-top: 155px;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.container {
+  padding-top: 20px;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+
 @media (max-width: 768px) {
   .headerContainer {
     flex-direction: column;
     height: 200px;
   }
-  .container {
-    padding-top: 200px;
+  .containerClaimed {
+    padding-top: 215px;
   }
 }
 
@@ -52,7 +64,7 @@
   .headerContainer {
     height: 240px;
   }
-  .container {
-    padding-top: 240px;
+  .containerClaimed {
+    padding-top: 255px;
   }
 }

@@ -14,12 +14,12 @@ type EventItemProps = {
 
 function EventItem({ event }: EventItemProps) {
   return (
-    <Card className={clsx("min-w-[200px] p-3 pl-0", checkTimestampToday(event.itemDate) ? "bg-orange-500" : event.eventStatus ? "bg-green-700" : "bg-red-400")}>
+    <Card className={clsx("min-w-[150px] p-3 pl-0", checkTimestampToday(event.itemDate) ? "bg-orange-500" : event.eventStatus ? "bg-green-700" : "bg-red-400")}>
       <CardHeader>
-        <CardTitle className="text-xs leading-tight text-white">{event.timelineItemType}</CardTitle>
-        <CardDescription className="text-xs leading-tight font-semibold text-white">{event.contactTypeCode}</CardDescription>
-        <CardDescription className="text-xs leading-tight font-semibold text-white">{timestampToDate(event.itemDate, true)}</CardDescription>
-        <CardDescription className="text-xs leading-tight font-semibold text-white">{event.createdByUserName ?? "Unknown"}</CardDescription>
+        <CardTitle className="text-[11px] leading-tight text-white">{event.timelineItemType}</CardTitle>
+        <CardDescription className="text-[11px] leading-tight font-semibold text-white">{event.contactTypeCode}</CardDescription>
+        <CardDescription className="text-[11px] leading-tight font-semibold text-white">{timestampToDate(event.itemDate, true)}</CardDescription>
+        <CardDescription className="text-[11px] leading-tight font-semibold text-white">{event.createdByUserName ?? "Unknown"}</CardDescription>
       </CardHeader>
     </Card>
   );
@@ -28,8 +28,8 @@ function EventItem({ event }: EventItemProps) {
 function EventList({ events }: EventListProps) {
   return (
     <div className="max-w-[650px] m-0">
-      <p className="pb-1 text-sm font-semibold text-[var(--font-color)]">Events ({events.length})</p>
-      <div className="flex flex-row gap-2 overflow-x-auto">
+      <span className="pb-1 text-[11px] font-semibold">Events ({events.length})</span>
+      <div className="flex flex-row gap-1 overflow-x-auto">
         {events.map((event) => (
           <EventItem key={event.eventGuid} event={event} />
         ))}

@@ -69,29 +69,9 @@ model baptism_record {
   record                record   @relation(fields: [record_id], references: [id], onDelete: Cascade)
 }
 
-model expense_record {
-  id              Int          @id @default(autoincrement())
-  title           String
-  description     String
-  creator         String
-  item_expense_id Int
-  created_at      DateTime     @default(now()) @db.Timestamp(6)
-  paid_value      Float        @default(0)
-  updated_at      DateTime     @default(now()) @db.Timestamp(6)
-  item_expense    item_expense @relation(fields: [item_expense_id], references: [id], onDelete: Cascade)
-}
-
 model finding_source_type {
   id   Int    @id @default(autoincrement())
   name String @unique
-}
-
-model item_expense {
-  id             Int              @id @default(autoincrement())
-  name           String           @unique
-  price          Float            @default(0)
-  created_at     DateTime         @default(now()) @db.Timestamp(6)
-  expense_record expense_record[]
 }
 
 model marked_baptism_record {
@@ -135,4 +115,21 @@ model logged_user {
   username      String   @unique
   refresh_token String   @unique
   created_at    DateTime @default(now()) @db.Timestamp(6)
+}
+
+model division_request {
+  id                           Int      @id @default(autoincrement())
+  missionaries_requesting      String
+  missionaries_part            String
+  goal                         String
+  division_day                 String
+  division_time                String
+  division_ending_day          String
+  division_ending_time         String
+  area_requesting_division     String
+  area_part_division           String
+  transportation_method        String
+  reason_transportation_method String
+  approved                     Boolean  @default(false)
+  created_at                   DateTime @default(now()) @db.Timestamp(6)
 }

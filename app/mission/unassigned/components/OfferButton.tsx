@@ -2,11 +2,13 @@ import { Referral } from "@/interfaces";
 import { Button } from "@/components/ui/button";
 
 import { Dispatch, SetStateAction, useCallback } from "react";
+import { Interaction } from "@/hooks/interfaces";
 
 type Props = {
   refreshToken: string;
   referral: Referral;
   setReferralsState: Dispatch<SetStateAction<Referral[]>>;
+  interaction: Interaction;
 };
 
 function OfferButton({ setReferralsState, referral, refreshToken }: Props) {
