@@ -4,7 +4,7 @@ export async function fetchChurchServer<T>(url: string, refreshToken: string): P
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Cookie: `oauth-abw_church_account_id=3619012236345409;oauth-abw_refresh_token=${refreshToken}`,
+        Cookie: `oauth-abw_church_account_id=3613577472786544;oauth-abw_refresh_token=${refreshToken}`,
       },
     });
 

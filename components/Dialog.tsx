@@ -55,15 +55,15 @@ export default function DialogComponent({ users, areas, offers, uba, reasons, re
       let finalOffer = trimmedOffer;
       let finalOther = "";
 
-      const offerItem = offers.find((item) => item.id === offerId);
-      if (!offerItem) {
+      const OfferItemProps = offers.find((item) => item.id === offerId);
+      if (!OfferItemProps) {
         alert("Please select an offer.");
         return;
       }
 
       // Use offer name unless it's "Other"
-      if (offerItem.id !== 1) {
-        finalOffer = offerItem.name;
+      if (OfferItemProps.id !== 1) {
+        finalOffer = OfferItemProps.name;
       }
 
       // Validate base fields

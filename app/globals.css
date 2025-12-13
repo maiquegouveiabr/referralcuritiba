@@ -51,10 +51,6 @@ body {
   min-height: 100%;
 }
 
-body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

@@ -17,7 +17,7 @@ export interface Event {
 export interface Referral {
   offersTopic: TopicData | null;
   personOffer: PersonOffer | null;
-  offerItem: OfferItem | null;
+  OfferItemProps: OfferItemProps | null;
   contactInfo: ContactInfo | null;
   areaInfo: AreaInfo | null;
   contactAttempts: Event[] | [];
@@ -281,7 +281,7 @@ export interface AreaInfo {
   isBestWardLanguageMatch: boolean;
 }
 
-export interface OfferItem {
+export interface OfferItemProps {
   vendor_name: string;
   vendor_ad_id: string;
   ad_name: string;

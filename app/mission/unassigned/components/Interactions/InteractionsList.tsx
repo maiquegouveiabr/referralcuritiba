@@ -8,7 +8,8 @@ type PageProps = {
 function InteractionsList({ children }: PageProps) {
   return (
     <div className={styles.containerClaimed}>
-      <ol className="flex flex-row gap-2 overflow-x-auto pb-2">{children}</ol>
+      <span className="text-[#4f5151ff] ">NÃO DESIGNADAS</span>
+      <ol className="flex flex-row gap-2 overflow-x-auto pb-2 mt-2">{children}</ol>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { OfferItem, PersonOffer, TopicData } from "@/interfaces";
+import { OfferItemProps } from "@/interfaces";
 import { fetchChurchServer } from "@/util/api/fetchChurchServer";
 
 import { NextApiRequest, NextApiResponse } from "next";
@@ -16,26 +16,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         message: "missing params",
       });
     } else {
-      const url = `https://referralmanager.churchofjesuschrist.org/services/offers/person-offers/${id}`;
-      const personOffer = await fetchChurchServer<PersonOffer[]>(url, refreshToken);
-
-      if (personOffer && personOffer.length > 0) {
-        const url = "https://referralmanager.churchofjesuschrist.org/services/offers/topics/0";
-        const urlBoncom = `https://referralmanager.churchofjesuschrist.org/services/ad-content/${personOffer[0].boncomCampaignId}`;
-        const topicData = await fetchChurchServer<TopicData[]>(url, refreshToken);
-        const boncom = await fetchChurchServer<OfferItem[]>(urlBoncom, refreshToken);
-        res.status(200).json({
-          offerItem: boncom && boncom,
-          offersTopic: (topicData && topicData.find((item) => item.id === personOffer[0].formTopicId)) || null,
-          personOffer: personOffer[0],
-        });
-      } else {
-        res.status(200).json({
-          offerItem: null,
-          offersTopic: null,
-          personOffer: null,
-        });
-      }
+      const urlBoncom = `https://referralmanager.churchofjesuschrist.org/services/ad-content/${id}`;
+      const boncom = await fetchChurchServer<OfferItemProps[]>(urlBoncom, refreshToken);
+      res.status(200).json({
+        offer: boncom,
+      });
     }
   } catch (error) {
     console.error(error);

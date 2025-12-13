@@ -8,7 +8,8 @@ type PageProps = {
 function InteractionsClaimedList({ children }: PageProps) {
   return (
     <div className={styles.container}>
-      <ol className="list-decimal flex flex-col gap-4 marker:text-[11px]">{children}</ol>
+      <span className="text-[#4f5151ff] ">MINHA LISTA</span>
+      <ol className="list-decimal flex flex-col gap-4 marker:text-[11px] mt-2">{children}</ol>
     </div>
   );
 }

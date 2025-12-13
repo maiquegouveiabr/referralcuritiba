@@ -1,6 +1,8 @@
-import { Event } from "@/interfaces";
+import { Event, OfferItemProps, PersonOffer } from "@/interfaces";
 
 export interface Interaction {
+  personOffer: PersonOffer;
+  offer: OfferItemProps;
   events: Event[];
   assignment: {
     assignedTimestamp: number;

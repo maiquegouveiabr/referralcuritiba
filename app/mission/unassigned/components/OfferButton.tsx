@@ -14,7 +14,7 @@ type Props = {
 function OfferButton({ setReferralsState, referral, refreshToken }: Props) {
   const handleLoadOffer = useCallback(
     async (referral: Referral) => {
-      if (!referral.personOffer && !referral.offerItem && !referral.offersTopic) {
+      if (!referral.personOffer && !referral.OfferItemProps && !referral.offersTopic) {
         try {
           const response = await fetch(`/api/referrals/offer?id=${referral.personGuid}&refreshToken=${refreshToken}`);
 
@@ -23,12 +23,12 @@ function OfferButton({ setReferralsState, referral, refreshToken }: Props) {
             alert(message);
             return;
           } else {
-            const { offersTopic, personOffer, offerItem } = await response.json();
+            const { offersTopic, personOffer, OfferItemProps } = await response.json();
             const newRef = {
               ...referral,
               offersTopic,
               personOffer,
-              offerItem,
+              OfferItemProps,
             };
 
             setReferralsState((prev) => prev.map((ref) => (ref.personGuid === referral.personGuid ? newRef : ref)));
