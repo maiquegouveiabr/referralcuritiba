@@ -1,10 +1,10 @@
-export async function fetchChurchServer<T>(url: string, refreshToken: string): Promise<T | null> {
+export async function fetchChurchServer<T>(url: string, refreshToken: string, churchId: string): Promise<T | null> {
   try {
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Cookie: `oauth-abw_church_account_id=3613577472786544;oauth-abw_refresh_token=${refreshToken}`,
+        Cookie: `oauth-abw_church_account_id=${churchId};oauth-abw_refresh_token=${refreshToken}`,
       },
     });
 

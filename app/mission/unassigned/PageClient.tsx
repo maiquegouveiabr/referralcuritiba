@@ -28,6 +28,7 @@ import InteractionsList from "./components/Interactions/InteractionsList";
 import InteractionsClaimedList from "./components/Interactions/InteractionsClaimedList";
 
 type Props = {
+  churchId: string;
   refreshToken: string;
   userSettings: AgentProfile;
   users: User[];
@@ -38,7 +39,7 @@ type Props = {
   firebaseConnection: FastifyFirebaseConnection;
 };
 
-export default function PageClient({ areas, offers, stopTeachingReasons, uba, users, firebaseConnection, refreshToken, userSettings }: Props) {
+export default function PageClient({ areas, offers, stopTeachingReasons, uba, users, firebaseConnection, refreshToken, userSettings, churchId }: Props) {
   const { data } = useFirebaseData(firebaseConnection, "/new-queue-interactions/8959", (id) => `/interactions/${id}/info`);
 
   const { data: claimedData, setData: setClaimedData } = useFirebaseData(
@@ -115,7 +116,7 @@ export default function PageClient({ areas, offers, stopTeachingReasons, uba, us
   const interactionsClaimedLength = filteredClaimed.length;
 
   const handleFetchEvent = async (id: string) => {
-    const res = await fetch(`/api/interactions/events?id=${id}&refreshToken=${refreshToken}`);
+    const res = await fetch(`/api/interactions/events?id=${id}&refreshToken=${refreshToken}&churchId=${churchId}`);
     const events = (await res.json()) as Event[];
     setClaimedData((prev) => prev.map((item) => (item.requestConfirmation.personGuid === id ? { ...item, events } : item)));
   };
@@ -149,7 +150,7 @@ export default function PageClient({ areas, offers, stopTeachingReasons, uba, us
   const handleOfferBtn = async (interaction: Interaction) => {
     const res = await fetch("/api/interactions/offer", {
       method: "POST",
-      body: JSON.stringify({ refreshToken, offerId: interaction.mediaCampaignId, personId: interaction.requestConfirmation.personGuid }),
+      body: JSON.stringify({ churchId, refreshToken, offerId: interaction.mediaCampaignId, personId: interaction.requestConfirmation.personGuid }),
       headers: {
         "Content-Type": "application/json",
       },

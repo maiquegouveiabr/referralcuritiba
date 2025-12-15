@@ -5,19 +5,20 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { refreshToken, id } = req.query as {
+    const { refreshToken, id, churchId } = req.query as {
       refreshToken: string;
       id: string;
+      churchId: string;
     };
 
-    if (!refreshToken || !id) {
+    if (!refreshToken || !id || !churchId) {
       res.status(400).json({
         at: "/api/referrals/offer",
         message: "missing params",
       });
     } else {
       const urlBoncom = `https://referralmanager.churchofjesuschrist.org/services/ad-content/${id}`;
-      const boncom = await fetchChurchServer<OfferItemProps[]>(urlBoncom, refreshToken);
+      const boncom = await fetchChurchServer<OfferItemProps[]>(urlBoncom, refreshToken, churchId);
       res.status(200).json({
         offer: boncom,
       });

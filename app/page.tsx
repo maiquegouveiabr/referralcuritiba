@@ -7,8 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeClosed } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import userLogged from "./lib/userLogged";
-import updateUserLogged from "./lib/updateUserLogged";
 
 export default function Page() {
   const [username, setUsername] = useState("");
@@ -24,11 +22,6 @@ export default function Page() {
     }
     try {
       setIsLoading(true);
-      const isUserLogged = await userLogged(username);
-      if (isUserLogged) {
-        localStorage.setItem("REFRESH_TOKEN", isUserLogged);
-        return router.push(`/mission/unassigned?refreshToken=${isUserLogged}`);
-      }
       const response = await fetch("https://cookies-api-9ptk.onrender.com/api/cookies", {
         method: "POST",
         headers: {
@@ -44,10 +37,9 @@ export default function Page() {
       const cookies: Cookie[] = await response.json();
       if (cookies) {
         const REFRESH_TOKEN = cookies.find((cookie) => cookie.name === "oauth-abw_refresh_token");
+        const churchIdCookie = cookies.find((cookie) => cookie.name === "oauth-abw_church_account_id");
         if (REFRESH_TOKEN) {
-          await updateUserLogged(username, REFRESH_TOKEN.value);
-          localStorage.setItem("REFRESH_TOKEN", REFRESH_TOKEN.value);
-          router.push(`/mission/unassigned?refreshToken=${REFRESH_TOKEN?.value}`);
+          router.push(`/mission/unassigned?refreshToken=${REFRESH_TOKEN?.value}&churchId=${churchIdCookie?.value}`);
         }
       }
     } catch (error) {

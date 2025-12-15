@@ -1,10 +1,11 @@
 import { FastifyFirebaseConnection } from "./interfaces";
 
-export async function getFirebaseConnection(refreshToken: string): Promise<FastifyFirebaseConnection | null> {
+export async function getFirebaseConnection(refreshToken: string, churchId: string): Promise<FastifyFirebaseConnection | null> {
   try {
-    const url = `https://fastify-referral-api.vercel.app/api/firebase/firebase-connection?refreshToken=${refreshToken}`;
+    const url = `https://fastify-referral-api.vercel.app/api/firebase/firebase-connection`;
     const response = await fetch(url, {
-      method: "GET",
+      method: "POST",
+      body: JSON.stringify({ refreshToken, churchId }),
       headers: {
         "Content-Type": "application/json",
       },

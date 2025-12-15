@@ -13,20 +13,20 @@ import { redirect } from "next/navigation";
 import { getFirebaseConnection } from "./api/getFirebase";
 import getUserSettings from "./api/getUserSettings";
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ refreshToken?: string }> }) {
-  const { refreshToken } = await searchParams;
-  if (!refreshToken) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ refreshToken?: string; churchId?: string }> }) {
+  const { refreshToken, churchId } = await searchParams;
+  if (!refreshToken || !churchId) {
     redirect("/");
   }
 
   const [firebaseConnection, users, areas, uba, offers, stopReasons, userSettings] = await Promise.all([
-    getFirebaseConnection(refreshToken),
+    getFirebaseConnection(refreshToken, churchId),
     getUsers(),
     getAreas(),
     getUba(),
     getOffers(),
     getStopReasons(),
-    getUserSettings(refreshToken),
+    getUserSettings(refreshToken, churchId),
   ]);
 
   if (!firebaseConnection || !users || !areas || !uba || !offers || !stopReasons || !userSettings) {
@@ -35,6 +35,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ r
 
   return (
     <PageClient
+      churchId={churchId}
       areas={areas}
       offers={offers}
       stopTeachingReasons={stopReasons}

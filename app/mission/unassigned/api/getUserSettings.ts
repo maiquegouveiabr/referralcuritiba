@@ -1,11 +1,11 @@
 import { AgentProfile } from "./interfaces";
 
-async function getUserSettings(refreshToken: string): Promise<AgentProfile | null> {
+async function getUserSettings(refreshToken: string, churchId: string): Promise<AgentProfile | null> {
   try {
     const url = `https://fastify-referral-api.vercel.app/api/interactions/user/settings`;
     const res = await fetch(url, {
       method: "POST",
-      body: JSON.stringify({ refreshToken }),
+      body: JSON.stringify({ refreshToken, churchId }),
       headers: {
         "Content-Type": "application/json",
       },
