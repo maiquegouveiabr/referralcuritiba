@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styles from "@/app/mission/unassigned/unassigned.module.css";
+import styles from "@/app/interactions/unassigned.module.css";
 
 type PageProps = {
   children: ReactNode;

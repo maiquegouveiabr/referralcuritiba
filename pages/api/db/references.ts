@@ -20,17 +20,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       message: "no data provided",
     });
   } else {
-    const existingReference = await prisma.reference.findUnique({
-      where: {
-        id: data.id,
-      },
-    });
-    if (existingReference) {
-      res.status(409).json({
-        at: "api/db/references",
-        message: "reference already exists",
-      });
-    }
     const response = await prisma.reference.create({
       data,
     });

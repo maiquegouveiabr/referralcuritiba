@@ -1,10 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model area {
@@ -18,48 +18,6 @@ model area {
   reference reference[]
 }
 
-model reference {
-  id        String   @id
-  sent_date DateTime @default(now()) @db.Timestamp(6)
-  name      String
-  area_id   Int
-  other     String?
-  who_sent  String
-  offer     String?
-  phone     String?
-  area      area     @relation(fields: [area_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-}
-
-model zone {
-  zone_id      Int      @id(map: "Zone_pkey") @default(autoincrement())
-  name         String   @db.VarChar(255)
-  create_date  DateTime @default(now()) @db.Timestamp(6)
-  is_zone_real Boolean  @default(true)
-  area         area[]
-}
-
-model user {
-  user_id     Int      @id @default(autoincrement())
-  name        String   @unique
-  is_active   Boolean? @default(true)
-  create_date DateTime @default(now()) @db.Timestamptz(6)
-}
-
-model uba_area {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-}
-
-model offer {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-}
-
-model stop_teaching_reason {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-}
-
 model baptism_record {
   id                    Int      @id @default(autoincrement())
   record_id             Int
@@ -69,9 +27,34 @@ model baptism_record {
   record                record   @relation(fields: [record_id], references: [id], onDelete: Cascade)
 }
 
+model division_request {
+  id                           Int      @id @default(autoincrement())
+  missionaries_requesting      String
+  missionaries_part            String
+  goal                         String
+  division_day                 String
+  division_time                String
+  division_ending_day          String
+  division_ending_time         String
+  area_requesting_division     String
+  area_part_division           String
+  transportation_method        String
+  reason_transportation_method String
+  approved                     Boolean  @default(false)
+  created_at                   DateTime @default(now()) @db.Timestamp(6)
+}
+
 model finding_source_type {
   id   Int    @id @default(autoincrement())
   name String @unique
+}
+
+model logged_user {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  refresh_token String   @unique
+  created_at    DateTime @default(now()) @db.Timestamp(6)
+  church_id     String
 }
 
 model marked_baptism_record {
@@ -81,6 +64,11 @@ model marked_baptism_record {
   created_at            DateTime @default(now()) @db.Timestamp(6)
   finding_source_status Int      @default(1)
   record                record   @relation(fields: [record_id], references: [id], onDelete: Cascade)
+}
+
+model offer {
+  id   Int    @id @default(autoincrement())
+  name String @unique
 }
 
 model record {
@@ -105,31 +93,44 @@ model record {
   area                            area                    @relation(fields: [area_id], references: [id], onDelete: Cascade, map: "records_area_id_fkey")
 }
 
+model reference {
+  id        String   @id
+  sent_date DateTime @default(now()) @db.Timestamp(6)
+  name      String
+  area_id   Int
+  other     String?
+  who_sent  String
+  offer     String?
+  phone     String?
+  area      area     @relation(fields: [area_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
 model stake {
   id   Int    @id(map: "stakes_pkey") @default(autoincrement())
   name String @unique(map: "stakes_name_key")
 }
 
-model logged_user {
-  id            Int      @id @default(autoincrement())
-  username      String   @unique
-  refresh_token String   @unique
-  created_at    DateTime @default(now()) @db.Timestamp(6)
+model stop_teaching_reason {
+  id   Int    @id @default(autoincrement())
+  name String @unique
 }
 
-model division_request {
-  id                           Int      @id @default(autoincrement())
-  missionaries_requesting      String
-  missionaries_part            String
-  goal                         String
-  division_day                 String
-  division_time                String
-  division_ending_day          String
-  division_ending_time         String
-  area_requesting_division     String
-  area_part_division           String
-  transportation_method        String
-  reason_transportation_method String
-  approved                     Boolean  @default(false)
-  created_at                   DateTime @default(now()) @db.Timestamp(6)
+model uba_area {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model user {
+  user_id     Int      @id @default(autoincrement())
+  name        String   @unique
+  is_active   Boolean? @default(true)
+  create_date DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model zone {
+  zone_id      Int      @id(map: "Zone_pkey") @default(autoincrement())
+  name         String   @db.VarChar(255)
+  create_date  DateTime @default(now()) @db.Timestamp(6)
+  is_zone_real Boolean  @default(true)
+  area         area[]
 }

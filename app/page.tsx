@@ -2,11 +2,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./Login.module.css";
-import { Cookie } from "puppeteer";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeClosed } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { UserResponse } from "@/pages/api/db/userLogged";
 
 export default function Page() {
   const [username, setUsername] = useState("");
@@ -22,7 +22,7 @@ export default function Page() {
     }
     try {
       setIsLoading(true);
-      const response = await fetch("https://cookies-api-9ptk.onrender.com/api/cookies", {
+      const response = await fetch("/api/db/userLogged", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,15 +33,9 @@ export default function Page() {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
+      const { refreshToken, churchId }: UserResponse = await response.json();
 
-      const cookies: Cookie[] = await response.json();
-      if (cookies) {
-        const REFRESH_TOKEN = cookies.find((cookie) => cookie.name === "oauth-abw_refresh_token");
-        const churchIdCookie = cookies.find((cookie) => cookie.name === "oauth-abw_church_account_id");
-        if (REFRESH_TOKEN) {
-          router.push(`/mission/unassigned?refreshToken=${REFRESH_TOKEN?.value}&churchId=${churchIdCookie?.value}`);
-        }
-      }
+      router.push(`/interactions?refreshToken=${refreshToken}&churchId=${churchId}`);
     } catch (error) {
       console.error(`LOGIN_ERROR=${error}`);
       alert(error);

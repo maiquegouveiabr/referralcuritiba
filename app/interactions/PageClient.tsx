@@ -4,7 +4,7 @@
 import "@/app/globals.css";
 
 // Styles
-import styles from "@/app/mission/unassigned/unassigned.module.css";
+import styles from "@/app/interactions/unassigned.module.css";
 
 // Types and interfaces
 import { Area, Event, Offer, OfferItemProps, PersonOffer, Referral, StopTeachingReason, UbaArea, User } from "@/interfaces";

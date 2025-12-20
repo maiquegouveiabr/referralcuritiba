@@ -1,4 +1,4 @@
-import { FastifyFirebaseConnection } from "@/app/mission/unassigned/api/interfaces";
+import { FastifyFirebaseConnection } from "@/app/interactions/api/interfaces";
 import { initializeApp, getApps } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth, signInWithCustomToken } from "firebase/auth";
