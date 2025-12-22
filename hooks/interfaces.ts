@@ -1,6 +1,7 @@
-import { Event, OfferItemProps, PersonOffer } from "@/interfaces";
+import { AreaInfo, Event, OfferItemProps, PersonOffer } from "@/interfaces";
 
 export interface Interaction {
+  suggestedArea: AreaInfo | null;
   personOffer: PersonOffer;
   offer: OfferItemProps;
   events: Event[];

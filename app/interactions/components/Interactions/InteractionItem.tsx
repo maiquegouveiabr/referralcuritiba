@@ -5,11 +5,10 @@ import timestampToDate from "@/util/timestampToDate";
 
 type Props = {
   data: Interaction;
-
-  handleClaimInteractionBtn: () => void;
+  onClaim: () => void;
 };
 
-function InteractionItem({ data, handleClaimInteractionBtn }: Props) {
+function InteractionItem({ data, onClaim }: Props) {
   return (
     <li className="min-w-fit  p-2 border rounded">
       <div className="flex flex-col gap-1">
@@ -22,7 +21,7 @@ function InteractionItem({ data, handleClaimInteractionBtn }: Props) {
       <div>
         <Button
           containerStyle={{ borderStyle: "solid", borderWidth: "2px", borderColor: "#59b3ddff", color: "#59b3ddff", marginTop: "0.8rem" }}
-          onClick={handleClaimInteractionBtn}
+          onClick={onClaim}
         >
           CLAIM
         </Button>

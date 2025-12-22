@@ -1,17 +1,12 @@
-// Components
-import PageClient from "./PageClient";
-
-// Server APIS
 import getUsers from "./api/getUsers";
 import getAreas from "./api/getAreas";
 import getUba from "./api/getUba";
 import getOffers from "./api/getOffers";
 import getStopReasons from "./api/getStopReasons";
-
-// External APIS
 import { redirect } from "next/navigation";
 import { getFirebaseConnection } from "./api/getFirebase";
 import getUserSettings from "./api/getUserSettings";
+import PageComponent from "./PageComponent";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ refreshToken?: string; churchId?: string }> }) {
   const { refreshToken, churchId } = await searchParams;
@@ -34,7 +29,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ r
   }
 
   return (
-    <PageClient
+    <PageComponent
       churchId={churchId}
       areas={areas}
       offers={offers}

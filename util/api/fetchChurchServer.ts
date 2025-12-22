@@ -6,6 +6,7 @@ export async function fetchChurchServer<T>(url: string, refreshToken: string, ch
         "Content-Type": "application/json",
         Cookie: `oauth-abw_church_account_id=${churchId};oauth-abw_refresh_token=${refreshToken}`,
       },
+      redirect: "follow",
     });
 
     if (!response.ok) {

@@ -1,5 +1,5 @@
-import { OfferItemProps, PersonOffer } from "@/interfaces";
 import { Card } from "./ui/card";
+import { Interaction } from "@/hooks/interfaces";
 
 const offerRaw = [
   {
@@ -258,11 +258,11 @@ const offerRaw = [
 ];
 
 type Props = {
-  offer: OfferItemProps;
-  personOffer: PersonOffer;
+  interaction: Interaction;
 };
 
-function OfferComponent({ offer, personOffer }: Props) {
+function OfferComponent({ interaction }: Props) {
+  const { offer, personOffer } = interaction;
   const personOfferItem = (personOffer && offerRaw.find((item) => item.id === personOffer.formTopicId)) || null;
   return (
     <Card className="max-w-[500px] p-3 mt-1">
