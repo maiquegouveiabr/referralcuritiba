@@ -4,8 +4,9 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Select from "@/components/Select";
-import { Area, Offer, Referral, StopTeachingReason, UbaArea, User } from "@/interfaces";
+import { Area, Offer, StopTeachingReason, UbaArea, User } from "@/interfaces";
 import { useEffect, useMemo, useState } from "react";
+import { Interaction } from "@/hooks/interfaces";
 
 const specialAreaLabels: Record<number, string> = {
   0: "UBA Area",
@@ -19,13 +20,13 @@ type Props = {
   areas: Area[];
   uba: UbaArea[];
   reasons: StopTeachingReason[];
-  ref: Referral | null;
+  interaction: Interaction | null;
   setOpen: (open: boolean) => void;
   open: boolean;
-  postSent: (ref: Referral, offer: string, areaName: string) => void;
+  postSent: (interaction: Interaction, offer: string, areaName: string) => void;
 };
 
-export default function DialogComponent({ users, areas, offers, uba, reasons, ref, open, setOpen, postSent }: Props) {
+export default function DialogComponent({ users, areas, offers, uba, reasons, interaction, open, setOpen, postSent }: Props) {
   const MISSION_ID = Number(process.env.NEXT_PUBLIC_MISSION_ID);
   const UBA_AREA_ID = Number(process.env.NEXT_PUBLIC_UBA_AREA_ID);
   const [ubaId, setUbaId] = useState<number | null>(null);
@@ -39,7 +40,7 @@ export default function DialogComponent({ users, areas, offers, uba, reasons, re
   const [disabledOffer, setDisabledOffer] = useState(true);
   const [disabledReason, setDisabledReason] = useState(true);
 
-  if (!ref) return null;
+  if (!interaction) return null;
 
   const selectData = {
     users: useMemo(() => users.map(({ user_id, name }) => ({ id: user_id, name })), [users]),
@@ -109,11 +110,11 @@ export default function DialogComponent({ users, areas, offers, uba, reasons, re
       setSending(true);
 
       const payload = {
-        id: ref.personGuid,
-        name: ref.firstName,
+        id: interaction.requestConfirmation.personGuid,
+        name: interaction.requestConfirmation.name,
         who_sent: user.name,
         offer: finalOffer,
-        phone: ref.contactInfo?.phoneNumbers?.[0]?.number || "",
+        phone: interaction.requestConfirmation.phoneNumber,
         area_id: areaId,
         other: finalOther,
       };
@@ -136,15 +137,33 @@ export default function DialogComponent({ users, areas, offers, uba, reasons, re
         areaName = name;
       }
 
-      postSent(ref, finalOffer.toUpperCase(), areaName);
+      postSent(interaction, finalOffer.toUpperCase(), areaName);
       setOpen(false);
     } catch (error) {
       alert(error instanceof Error ? error.message : "Something went wrong");
       console.error(error);
     } finally {
       setSending(false);
+      setOpen(false);
     }
   };
+
+  const handleResetForm = () => {
+    setUserId(null);
+    setUbaId(null);
+    setAreaId(null);
+    setOfferId(null);
+    setReasonId(null);
+    setOffer("");
+    setOther("");
+    setSending(false);
+    setDisabledOffer(true);
+    setDisabledReason(true);
+  };
+
+  useEffect(() => {
+    if (!open) handleResetForm();
+  }, [open]);
 
   useEffect(() => {
     setDisabledOffer(offerId === 1 ? false : true);
@@ -155,14 +174,14 @@ export default function DialogComponent({ users, areas, offers, uba, reasons, re
   }, [reasonId]);
 
   useEffect(() => {
-    if (ref.areaInfo && ref.areaInfo.bestProsAreaId) {
-      if (ref.areaInfo.missions && ref.areaInfo.missions[0].id !== MISSION_ID) {
+    if (interaction.suggestedArea && interaction.suggestedArea.bestProsAreaId) {
+      if (interaction.suggestedArea.missions && interaction.suggestedArea.missions[0].id !== MISSION_ID) {
         setAreaId(1);
-        setOther(ref.areaInfo.missions[0].name);
-      } else if (ref.areaInfo.bestProsAreaId === UBA_AREA_ID) setAreaId(0);
-      else setAreaId(ref.areaInfo.bestProsAreaId);
+        setOther(interaction.suggestedArea.missions[0].name);
+      } else if (interaction.suggestedArea.bestProsAreaId === UBA_AREA_ID) setAreaId(0);
+      else setAreaId(interaction.suggestedArea.bestProsAreaId);
     }
-  }, [ref, MISSION_ID, UBA_AREA_ID]);
+  }, [interaction, MISSION_ID, UBA_AREA_ID]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -178,7 +197,7 @@ export default function DialogComponent({ users, areas, offers, uba, reasons, re
             <Label htmlFor="name" className="text-left text-[var(--header-button)] ">
               Referral Name
             </Label>
-            <Input disabled value={ref?.firstName} className="col-span-3" />
+            <Input disabled value={interaction.requestConfirmation.name} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="offer" className="text-left text-[var(--header-button)] ">

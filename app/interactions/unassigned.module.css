@@ -5,7 +5,7 @@
   justify-content: space-around;
   align-items: center;
   background-color: var(--header);
-  z-index: 1000;
+
   position: fixed;
   top: 0;
 }

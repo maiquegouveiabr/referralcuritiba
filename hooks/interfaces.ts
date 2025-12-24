@@ -1,6 +1,9 @@
 import { AreaInfo, Event, OfferItemProps, PersonOffer } from "@/interfaces";
 
 export interface Interaction {
+  pickedOffer: string | null;
+  pickedArea: string | null;
+  wasSent: boolean | null;
   suggestedArea: AreaInfo | null;
   personOffer: PersonOffer;
   offer: OfferItemProps;

@@ -4,15 +4,18 @@ import EventList from "@/components/EventList";
 import Button from "@/components/Button";
 import OfferComponent from "@/components/OfferComponent";
 import timestampToDate from "@/util/timestampToDate";
+import { Send } from "lucide-react";
+import CopyButton from "../CopyButton";
 
 type Props = {
   interaction: Interaction;
   onEvent: () => void;
   onDiscard: () => void;
   onOffer: () => void;
+  onOpenDialog: () => void;
 };
 
-function InteractionItemClaimed({ interaction, onEvent, onDiscard, onOffer }: Props) {
+function InteractionItemClaimed({ interaction, onEvent, onDiscard, onOffer, onOpenDialog }: Props) {
   const events = interaction.events && interaction.events.filter((item) => item.timelineItemType === "CONTACT" || item.timelineItemType === "TEACHING");
 
   return (
@@ -50,6 +53,12 @@ function InteractionItemClaimed({ interaction, onEvent, onDiscard, onOffer }: Pr
         <Button containerStyle={{ backgroundColor: "#dd5959ff" }} onClick={onDiscard}>
           DISCARD
         </Button>
+        {!interaction.wasSent && (
+          <Button containerStyle={{ backgroundColor: "#ffe8a3ff" }} onClick={onOpenDialog}>
+            <Send style={{ color: "#ebb105ff" }} />
+          </Button>
+        )}
+        {interaction.wasSent && <CopyButton interaction={interaction} />}
       </div>
     </li>
   );

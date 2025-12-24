@@ -1,27 +1,24 @@
 import { Button } from "@/components/ui/button";
-import { Referral } from "@/interfaces";
+import { Interaction } from "@/hooks/interfaces";
 import timestampToDate from "@/util/timestampToDate";
 import { CopyIcon } from "lucide-react";
 
 type Props = {
-  referral: Referral;
+  interaction: Interaction;
 };
 
-function CopyButton({ referral }: Props) {
-  const handleCopy = async (ref: Referral) => {
-    if (!ref.areaInfo || !ref.contactInfo) return;
+function CopyButton({ interaction }: Props) {
+  const handleCopy = async () => {
+    if (!interaction.pickedArea || !interaction.pickedOffer) return;
 
     try {
-      const areaName = ref.areaName || ref.areaInfo.proselytingAreas?.[0]?.name || "AREA_PLACEHOLDER";
+      const areaName = interaction.pickedArea;
 
-      const phoneNumber = ref.contactInfo.phoneNumbers?.[0]?.number || "PHONE_PLACEHOLDER";
+      const phoneNumber = interaction.requestConfirmation.phoneNumber || "PHONE_PLACEHOLDER";
 
-      const text = `@${areaName}\n*${areaName}*\nEnviamos uma referência para vocês pelo Pregar Meu Evangelho!\n${
-        ref.lastName ? `*${ref.firstName} ${ref.lastName}*` : `*${ref.firstName}*`
-      } - ${ref.offerText ? `*${ref.offerText}*` : `*OFERTA_PLACEHOLDER*`}\nNúmero: ${phoneNumber}\n*Cadastro em: ${timestampToDate(
-        new Date(ref.createDate).getTime(),
-        true
-      )}*`;
+      const text = `@${areaName}\n*${areaName}*\nEnviamos uma referência para vocês pelo Pregar Meu Evangelho!\n*${interaction.requestConfirmation.name} - ${
+        interaction.pickedOffer
+      }*\nNúmero: ${phoneNumber}\n*Cadastro em: ${timestampToDate(new Date(interaction.startTimestamp).getTime(), true)}*`;
 
       await navigator.clipboard.writeText(text);
     } catch (error) {
@@ -31,7 +28,7 @@ function CopyButton({ referral }: Props) {
   };
 
   return (
-    <Button className="w-fit cursor-pointer text-yellow-600 hover:bg-yellow-600 hover:text-white" onClick={() => handleCopy(referral)} variant="outline">
+    <Button className="w-fit cursor-pointer text-yellow-600 hover:bg-yellow-600 hover:text-white" onClick={handleCopy} variant="outline">
       <CopyIcon />
     </Button>
   );

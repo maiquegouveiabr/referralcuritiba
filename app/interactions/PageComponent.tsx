@@ -12,6 +12,7 @@ import { AgentProfile, FastifyFirebaseConnection } from "./api/interfaces";
 import { Area, AreaInfo, Offer, StopTeachingReason, UbaArea, User } from "@/interfaces";
 import { fetchAssignments } from "./lib/interactions/fetchAssignments";
 import { useEffect, useMemo, useState } from "react";
+import DialogComponent from "@/components/DialogComponent";
 
 type Props = {
   churchId: string;
@@ -80,11 +81,25 @@ export default function PageComponent(props: Props) {
   const filteredClaimed = useFilteredInteractions(claimedWithAssignments, state.date, state.isDescending);
   const actions = useInteractionActions({
     ...props,
+    state,
     setClaimedInteractions: setData,
   });
 
   return (
     <>
+      {state.dialogInteraction && (
+        <DialogComponent
+          interaction={state.dialogInteraction}
+          postSent={actions.handlePostSent}
+          areas={props.areas}
+          offers={props.offers}
+          reasons={props.stopTeachingReasons}
+          users={props.users}
+          uba={props.uba}
+          open={state.dialogOpen}
+          setOpen={state.setDialogOpen}
+        />
+      )}
       <HeaderSection filteredCount={filteredUnassigned.length} claimedCount={filteredClaimed.length} state={state} />
 
       <InteractionsList>
@@ -101,6 +116,7 @@ export default function PageComponent(props: Props) {
             onDiscard={() => actions.discard(item)}
             onEvent={() => actions.fetchEvent(item)}
             onOffer={() => actions.fetchOffer(item)}
+            onOpenDialog={() => actions.handleDialogOpen(item)}
           />
         ))}
       </InteractionsClaimedList>
