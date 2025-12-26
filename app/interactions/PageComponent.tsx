@@ -66,7 +66,7 @@ export default function PageComponent(props: Props) {
     return () => {
       cancelled = true;
     };
-  }, [claimed, loading]);
+  }, [claimed, loading, assignments, props.churchId, props.refreshToken]);
 
   const claimedWithAssignments = useMemo(
     () =>

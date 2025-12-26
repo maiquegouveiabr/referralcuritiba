@@ -1,7 +1,7 @@
 import { prisma } from "@/util/db";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function (_req: NextApiRequest, res: NextApiResponse) {
+export async function idsHandler(_req: NextApiRequest, res: NextApiResponse) {
   const ids = await prisma.reference.findMany({
     select: {
       id: true,
@@ -10,3 +10,5 @@ export default async function (_req: NextApiRequest, res: NextApiResponse) {
 
   res.send(ids.map(({ id }) => id));
 }
+
+export default idsHandler;

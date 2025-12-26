@@ -1,0 +1,5 @@
+{
+  "ignore": ["lib/generated/prisma|components/ui|.next"],
+  "skip": "\\.test\\.|test/",
+  "project": "tsconfig.build.json"
+}

@@ -12,7 +12,7 @@ interface ReferenceData {
   phone: string | null;
 }
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export async function referencesHandler(req: NextApiRequest, res: NextApiResponse) {
   const data: ReferenceData = JSON.parse(req.body);
   if (!data) {
     res.status(400).json({
@@ -33,3 +33,5 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     }
   }
 }
+
+export default referencesHandler;

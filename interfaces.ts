@@ -14,146 +14,6 @@ export interface Event {
   emailCampaignId: number; // Numeric value for email campaign ID
 }
 
-export interface Referral {
-  offersTopic: TopicData | null;
-  personOffer: PersonOffer | null;
-  OfferItemProps: OfferItemProps | null;
-  contactInfo: ContactInfo | null;
-  areaInfo: AreaInfo | null;
-  contactAttempts: Event[] | [];
-  personGuid: string;
-  householdGuid: string;
-  firstName: string;
-  lastName: string | null;
-  gender: string | null;
-  ageCategoryId: number | null;
-  referralStatusName: string | null;
-  referralStatusId: number;
-  personStatusId: number;
-  stewardCmisId: string | null;
-  cmisId: string | null;
-  followerCmisIdString: string | null;
-  missionName: string;
-  missionId: number;
-  zoneId: number;
-  zoneName: string;
-  districtId: number;
-  districtName: string;
-  areaId: number;
-  areaName: string;
-  orgId: number;
-  orgNum: number;
-  orgName: string;
-  address: string;
-  phone: string | null;
-  phoneHome: string | null;
-  phoneMobile: string | null;
-  phoneWork: string | null;
-  phoneOther: string | null;
-  email: string | null;
-  preferredLanguageId: number;
-  referralAssignedDate: number;
-  localTimeZone: string | null;
-  findId: number;
-  offerId: number | null;
-  lastLessonDate: number | null;
-  statusDate: number | null;
-  baptismDate: number | null;
-  baptismGoalDate: number | null;
-  lastSacramentDate: number | null;
-  lastTaughtByLocalDate: number | null;
-  locId: number;
-  stewardCmisFirstName: string | null;
-  stewardCmisLastName: string | null;
-  privacyNoticeStatusId: number;
-  privacyExpirationDate: number | null;
-  privacyNoticeDueDate: number | null;
-  affirmedInterestDate: number | null;
-  createDate: number;
-  areaPhones: string | null;
-  missionaryContactList: string | null;
-  memberHideProgressDate: number | null;
-  doNotContactDate: number | null;
-  lastStewardChangeDate: number | null;
-  deleted: boolean;
-  convert: boolean;
-  phoneMobileTextable: boolean;
-  phoneTextable: boolean;
-  phoneOtherTextable: boolean;
-  phoneWorkTextable: boolean;
-  phoneHomeTextable: boolean;
-  sentStatus: boolean;
-  offerText?: string;
-  phoneMatches: { id: string; phone: string; name: string; area_name: string; other: string }[] | null;
-}
-
-export interface ContactInfo {
-  phoneNumbers: {
-    modDate: string | null;
-    createDate: string | null;
-    deleted: boolean;
-    type: string;
-    number: string;
-    textable: boolean;
-    whatsAppEnabled: boolean;
-  }[];
-  emailAddresses: string[] | null;
-  socialMediaAccounts: string[] | null;
-}
-
-export interface ReferralComplete {
-  contactAttempts: Event[];
-  areaInfo: AreaInfo;
-  person: {
-    id: string;
-    householdId: string;
-    ageCatId: number | null;
-    serverId: number;
-    status: number;
-    contactSource: number;
-    preferredLangId: number;
-    preferredContactType: string | null;
-    preferredPhoneType: string | null;
-    preferredEmailType: string | null;
-    cmisId: string | null;
-    prosAreaId: string | null;
-    firstName: string;
-    lastName: string | null;
-    gender: string | null;
-    memberPhotoPrivacyLevel: number;
-    modDate: string;
-    createDate: string;
-    note: string | null;
-    contactInfo: ContactInfo;
-    fellowshipInfo: string | null;
-    dropNotes: string | null;
-    commitments: string | null;
-    principleSummary: string | null;
-    cmisServicesMember: string | null;
-    membershipCreationDate: string | null;
-    lastStewardChangeDate: string | null;
-    deleted: boolean;
-
-    convert: boolean;
-    member: boolean;
-    dataPrivacyConsent: boolean;
-    pendingAnonymizationDate: number;
-    followerCmisIds: string[] | null;
-    tags: string[] | null;
-
-    scheduledBaptism: string | null;
-    confirmationDate: string | null;
-    baptismDate: string | null;
-    memberHideProgressDate: string | null;
-    showOnDigitalProgressRecord: boolean;
-    doNotContactDate: string | null;
-    cmisMemberIsPrivate: boolean;
-    priesthoodConferred: boolean;
-    foundByPersonGuid: string | null;
-    suggestedArea: string | null;
-  };
-}
-
 export interface AreaInfo {
   missions:
     | {
@@ -352,27 +212,10 @@ export interface PersonOffer {
   findTypeId: null;
 }
 
-export interface TopicData {
-  id: string;
-  topic: string;
-  isDefault: boolean;
-  attributes: {
-    thingsToConsider: string[];
-  };
-}
-
 export interface Area {
   id: number;
   name: string;
   zone_id: number;
-}
-
-export enum TitleOption {
-  OPTION_1 = "People Not Assigned",
-  OPTION_2 = "UBA",
-  OPTION_3 = "More Than Two Events",
-  OPTION_4 = "No Events In Three Days",
-  OPTION_5 = TitleOption.OPTION_1,
 }
 
 export interface User {

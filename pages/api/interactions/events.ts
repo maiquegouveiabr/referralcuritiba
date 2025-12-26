@@ -2,7 +2,7 @@ import { fetchChurchServer } from "@/util/api/fetchChurchServer";
 import { NextApiRequest, NextApiResponse } from "next";
 
 // If everything goes well it will return timeline events, if not it returns empty []
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export async function eventsHandler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id, refreshToken, churchId } = req.query as {
       refreshToken: string;
@@ -34,3 +34,5 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     }
   }
 }
+
+export default eventsHandler;

@@ -3,7 +3,7 @@ import { fetchChurchServer } from "@/util/api/fetchChurchServer";
 
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export async function offerHandler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { refreshToken, id, churchId } = req.query as {
       refreshToken: string;
@@ -31,3 +31,5 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     });
   }
 }
+
+export default offerHandler;

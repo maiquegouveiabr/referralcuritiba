@@ -1,7 +1,7 @@
 import { NextApiResponse, NextApiRequest } from "next";
 import { prisma } from "@/util/db";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export async function referralExistHandler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id: referralId } = req.query;
     if (!referralId) {
@@ -31,4 +31,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.error(error);
     res.status(500).send(null);
   }
-};
+}
+
+export default referralExistHandler;

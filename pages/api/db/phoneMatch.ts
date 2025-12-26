@@ -1,7 +1,7 @@
 import { NextApiResponse, NextApiRequest } from "next";
 import { prisma } from "@/util/db";
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export async function phoneMatchHandler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { phone } = req.query;
     const similars = await prisma.$queryRaw`
@@ -21,3 +21,5 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     res.status(400).send(error);
   }
 }
+
+export default phoneMatchHandler;
