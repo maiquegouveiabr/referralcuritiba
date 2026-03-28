@@ -74,7 +74,7 @@ export default function PageComponent(props: Props) {
         ...i,
         suggestedArea: assignments[i.requestConfirmation.personGuid],
       })),
-    [claimed, assignments]
+    [claimed, assignments],
   );
 
   const filteredUnassigned = useFilteredInteractions(unassigned, state.date, state.isDescending, "assigned");
