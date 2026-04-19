@@ -12,6 +12,7 @@ export async function getFirebaseConnection(refreshToken: string, churchId: stri
       return firebaseCredentials;
     }
   } catch (error) {
+    console.log(error);
     return null;
   }
 }

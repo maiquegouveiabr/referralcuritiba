@@ -12,6 +12,7 @@ async function getUserSettings(refreshToken: string, churchId: string): Promise<
       return userSettings;
     }
   } catch (error) {
+    console.log(error);
     return null;
   }
 }
