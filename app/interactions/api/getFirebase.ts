@@ -1,22 +1,17 @@
+import { fetchChurchServer } from "@/util/api/fetchChurchServer";
 import { FastifyFirebaseConnection } from "./interfaces";
 
 export async function getFirebaseConnection(refreshToken: string, churchId: string): Promise<FastifyFirebaseConnection | null> {
   try {
-    const url = `https://fastify-referral-api.vercel.app/api/firebase/firebase-connection`;
-    const response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify({ refreshToken, churchId }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) throw new Error("Internal Server Error");
-    const firebaseConnection = (await response.json()) as FastifyFirebaseConnection;
-    return firebaseConnection;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
+    const url = "https://referralmanager.churchofjesuschrist.org/services/interactions/firebase-connection";
+    const firebaseCredentials = (await fetchChurchServer(url, refreshToken, churchId)) as FastifyFirebaseConnection;
+
+    if (!firebaseCredentials) {
+      throw new Error("Failed to connect to Firebase.");
+    } else {
+      return firebaseCredentials;
     }
+  } catch (error) {
     return null;
   }
 }
