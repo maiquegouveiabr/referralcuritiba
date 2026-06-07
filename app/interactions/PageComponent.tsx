@@ -9,13 +9,11 @@ import InteractionItem from "./components/Interactions/InteractionItem";
 import InteractionsClaimedList from "./components/Interactions/InteractionsClaimedList";
 import InteractionItemClaimed from "./components/Interactions/InteractionItemClaimed";
 import { AgentProfile, FastifyFirebaseConnection } from "./api/interfaces";
-import { Area, AreaInfo, Offer, StopTeachingReason, UbaArea, User } from "@/interfaces";
-import { fetchAssignments } from "./lib/interactions/fetchAssignments";
-import { useEffect, useMemo, useState } from "react";
+import { Area, Offer, StopTeachingReason, UbaArea, User } from "@/interfaces";
+
 import DialogComponent from "@/components/DialogComponent";
 
 type Props = {
-  churchId: string;
   refreshToken: string;
   userSettings: AgentProfile;
   users: User[];
@@ -30,55 +28,14 @@ export default function PageComponent(props: Props) {
   const state = useInteractionsPageState();
 
   const { data: unassigned } = useFirebaseData(props.firebaseConnection, "/new-queue-interactions/8959", (id) => `/interactions/${id}/info`);
-  const {
-    data: claimed,
-    setData,
-    loading,
-  } = useFirebaseData(props.firebaseConnection, `/current-interactions/${props.userSettings.cmisId}`, (id) => `/interactions/${id}/info`);
-
-  const [assignments, setAssignments] = useState<Record<string, AreaInfo | null>>({});
-
-  useEffect(() => {
-    if (loading) return;
-
-    const missing = claimed.filter((i) => !i.suggestedArea && !assignments[i.requestConfirmation.personGuid]);
-
-    if (missing.length === 0) return;
-
-    let cancelled = false;
-
-    const run = async () => {
-      const fetched = await fetchAssignments(missing, props.refreshToken, props.churchId);
-
-      if (cancelled) return;
-
-      setAssignments((prev) => {
-        const next = { ...prev };
-        for (const item of fetched) {
-          next[item.requestConfirmation.personGuid] = item.suggestedArea;
-        }
-        return next;
-      });
-    };
-
-    run();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [claimed, loading, assignments, props.churchId, props.refreshToken]);
-
-  const claimedWithAssignments = useMemo(
-    () =>
-      claimed.map((i) => ({
-        ...i,
-        suggestedArea: assignments[i.requestConfirmation.personGuid],
-      })),
-    [claimed, assignments],
+  const { data: claimed, setData } = useFirebaseData(
+    props.firebaseConnection,
+    `/current-interactions/${props.userSettings.cmisId}`,
+    (id) => `/interactions/${id}/info`,
   );
 
   const filteredUnassigned = useFilteredInteractions(unassigned, state.date, state.isDescending, "assigned");
-  const filteredClaimed = useFilteredInteractions(claimedWithAssignments, state.date, state.isDescending);
+  const filteredClaimed = useFilteredInteractions(claimed, state.date, state.isDescending);
   const actions = useInteractionActions({
     ...props,
     state,
@@ -86,7 +43,7 @@ export default function PageComponent(props: Props) {
   });
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {state.dialogInteraction && (
         <DialogComponent
           interaction={state.dialogInteraction}
@@ -100,26 +57,30 @@ export default function PageComponent(props: Props) {
           setOpen={state.setDialogOpen}
         />
       )}
+
       <HeaderSection filteredCount={filteredUnassigned.length} claimedCount={filteredClaimed.length} state={state} />
 
-      <InteractionsList>
-        {filteredUnassigned.map((item) => (
-          <InteractionItem key={item.id} data={item} onClaim={() => actions.claim(item)} />
-        ))}
-      </InteractionsList>
+      <main className="flex-1 overflow-auto">
+        <InteractionsList>
+          {filteredUnassigned.map((item) => (
+            <InteractionItem key={item.id} data={item} onClaim={() => actions.claim(item)} />
+          ))}
+        </InteractionsList>
 
-      <InteractionsClaimedList>
-        {filteredClaimed.map((item) => (
-          <InteractionItemClaimed
-            key={item.id}
-            interaction={item}
-            onDiscard={() => actions.discard(item)}
-            onEvent={() => actions.fetchEvent(item)}
-            onOffer={() => actions.fetchOffer(item)}
-            onOpenDialog={() => actions.handleDialogOpen(item)}
-          />
-        ))}
-      </InteractionsClaimedList>
-    </>
+        <InteractionsClaimedList>
+          {filteredClaimed.map((item) => (
+            <InteractionItemClaimed
+              key={item.id}
+              interaction={item}
+              onDiscard={() => actions.discard(item)}
+              onEvent={() => actions.fetchEvent(item)}
+              onOffer={() => actions.fetchOffer(item)}
+              onOpenDialog={() => actions.handleDialogOpen(item)}
+              onFetchTeachingArea={() => actions.fetchTeachingArea(item)}
+            />
+          ))}
+        </InteractionsClaimedList>
+      </main>
+    </div>
   );
 }

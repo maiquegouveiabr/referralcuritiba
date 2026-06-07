@@ -4,18 +4,17 @@ import { NextApiRequest, NextApiResponse } from "next";
 // If everything goes well it will return timeline events, if not it returns empty []
 export async function eventsHandler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { id, refreshToken, churchId } = req.query as {
+    const { id, refreshToken } = req.query as {
       refreshToken: string;
       id: string;
-      churchId: string;
     };
 
-    if (!id || !refreshToken || !churchId) {
+    if (!id || !refreshToken) {
       throw new Error("MISSING_PARAMS");
     }
 
     const url = `https://referralmanager.churchofjesuschrist.org/services/progress/timeline/${id}`;
-    const data = await fetchChurchServer<Event | null>(url, refreshToken, churchId);
+    const data = await fetchChurchServer<Event | null>(url, refreshToken);
 
     if (!data) {
       throw new Error("CHURCH_SERVER_ERROR");

@@ -4,15 +4,15 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { refreshToken, offerId, personId, churchId } = await req.json();
-    if (!refreshToken || !offerId || !personId || !churchId) {
+    const { refreshToken, offerId, personId } = await req.json();
+    if (!refreshToken || !offerId || !personId) {
       return NextResponse.json(null, { statusText: "Missing params", status: 400 });
     }
     const url = `https://referralmanager.churchofjesuschrist.org/services/ad-content/${offerId}`;
     const personOfferUrl = `https://referralmanager.churchofjesuschrist.org/services/offers/person-offers/${personId}`;
 
-    const offer = await fetchChurchServer<OfferItemProps>(url, refreshToken, churchId);
-    const personOffers = await fetchChurchServer<PersonOffer[]>(personOfferUrl, refreshToken, churchId);
+    const offer = await fetchChurchServer<OfferItemProps>(url, refreshToken);
+    const personOffers = await fetchChurchServer<PersonOffer[]>(personOfferUrl, refreshToken);
     if (!offer && !personOffers) {
       return NextResponse.json(null, { statusText: "Church Server Error", status: 500 });
     }

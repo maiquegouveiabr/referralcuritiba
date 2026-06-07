@@ -185,102 +185,120 @@ export default function DialogComponent({ users, areas, offers, uba, reasons, in
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle className="text-[var(--header-button)] ">Save Referral</DialogTitle>
-          <DialogDescription className="text-[var(--header-button)] ">
-            Fill out the form with the referral&apos;s information and hit the save button.
-          </DialogDescription>
+      <DialogContent className="sm:max-w-[500px] bg-white">
+        <DialogHeader className="border-b border-gray-200 pb-4">
+          <DialogTitle className="text-2xl font-bold text-gray-900">Save Referral</DialogTitle>
+          <DialogDescription className="text-gray-600 text-sm mt-1">Complete the form with the referral&apos;s information to save it.</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-left text-[var(--header-button)] ">
-              Referral Name
-            </Label>
-            <Input disabled value={interaction.requestConfirmation.name} className="col-span-3" />
+
+        <div className="space-y-5 py-6">
+          {/* Referral Name - Read Only */}
+          <div className="space-y-2">
+            <Label className="text-sm font-semibold text-gray-700">Referral Name</Label>
+            <Input disabled value={interaction.requestConfirmation.name} className="bg-gray-50 border-gray-200 text-gray-900" />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="offer" className="text-left text-[var(--header-button)] ">
-              Offer
-            </Label>
-            <div className="grid gap-2">
-              <Select
-                {...(offerId != null ? { defaultValue: String(offerId) } : {})}
-                onChange={setOfferId}
-                placeholder="Select Offer"
-                selectLabel="Offer"
-                data={selectData.offers}
+
+          {/* Offer */}
+          <div className="space-y-2">
+            <Label className="text-sm font-semibold text-gray-700">Offer *</Label>
+            <Select
+              {...(offerId != null ? { defaultValue: String(offerId) } : {})}
+              onChange={setOfferId}
+              placeholder="Select an offer"
+              selectLabel="Offer"
+              data={selectData.offers}
+            />
+            {!disabledOffer && (
+              <Input
+                type="text"
+                placeholder="Enter custom offer"
+                value={offer}
+                onChange={(event) => setOffer(event.target.value)}
+                className="border-gray-300"
               />
-              {!disabledOffer && <Input type="text" value={offer} onChange={(event) => setOffer(event.target.value)} />}
-            </div>
+            )}
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="who" className="text-left text-[var(--header-button)] ">
-              Who Are You
-            </Label>
+
+          {/* Missionary */}
+          <div className="space-y-2">
+            <Label className="text-sm font-semibold text-gray-700">Missionary *</Label>
             <Select
               {...(userId != null ? { defaultValue: String(userId) } : {})}
               onChange={setUserId}
-              placeholder="Select Missionary"
+              placeholder="Select a missionary"
               selectLabel="Missionaries"
               data={selectData.users}
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="who" className="text-left text-[var(--header-button)] ">
-              Teaching Area
-            </Label>
+
+          {/* Teaching Area */}
+          <div className="space-y-2">
+            <Label className="text-sm font-semibold text-gray-700">Teaching Area *</Label>
             <Select
               {...(areaId != null ? { defaultValue: String(areaId) } : {})}
               onChange={setAreaId}
-              placeholder="Select Teaching Area"
+              placeholder="Select teaching area"
               selectLabel="Teaching Area"
               data={selectData.areas}
             />
           </div>
+
+          {/* Conditional Fields */}
           {areaId === 1 && (
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="other" className="text-left text-[var(--header-button)] ">
-                {specialAreaLabels[areaId]}
-              </Label>
-              <Input type="text" value={other} className="col-span-3" onChange={(event) => setOther(event.target.value)} />
+            <div className="space-y-2 bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <Label className="text-sm font-semibold text-gray-700">{specialAreaLabels[areaId]} *</Label>
+              <Input
+                type="text"
+                placeholder="Enter mission name"
+                value={other}
+                onChange={(event) => setOther(event.target.value)}
+                className="border-blue-300 bg-white"
+              />
             </div>
           )}
+
           {areaId === 2 && (
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="who" className="text-left text-[var(--header-button)] ">
-                Reason To Stop Teaching
-              </Label>
-              <div className="grid gap-2">
-                <Select
-                  {...(ubaId != null ? { defaultValue: String(reasonId) } : {})}
-                  onChange={setReasonId}
-                  placeholder="Select Reason To Stop Teaching"
-                  selectLabel="Reason To Stop Teaching"
-                  data={selectData.reasons}
+            <div className="space-y-2 bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <Label className="text-sm font-semibold text-gray-700">Reason To Stop Teaching *</Label>
+              <Select
+                {...(reasonId != null ? { defaultValue: String(reasonId) } : {})}
+                onChange={setReasonId}
+                placeholder="Select a reason"
+                selectLabel="Reason To Stop Teaching"
+                data={selectData.reasons}
+              />
+              {!disabledReason && (
+                <Input
+                  type="text"
+                  placeholder="Enter additional details"
+                  value={other}
+                  onChange={(event) => setOther(event.target.value)}
+                  className="border-purple-300 bg-white"
                 />
-                {!disabledReason && <Input type="text" value={other} onChange={(event) => setOther(event.target.value)} />}
-              </div>
+              )}
             </div>
           )}
+
           {areaId === 0 && (
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="who" className="text-left text-[var(--header-button)] ">
-                UBA Area
-              </Label>
+            <div className="space-y-2 bg-green-50 border border-green-200 rounded-lg p-4">
+              <Label className="text-sm font-semibold text-gray-700">UBA Area *</Label>
               <Select
                 {...(ubaId != null ? { defaultValue: String(ubaId) } : {})}
                 onChange={setUbaId}
-                placeholder="Select UBA Area"
+                placeholder="Select UBA area"
                 selectLabel="UBA Area"
                 data={selectData.uba}
               />
             </div>
           )}
         </div>
-        <DialogFooter>
-          <Button className="cursor-pointer bg-[var(--header-button)] hover:bg-[var(--header-button)]" disabled={sending} onClick={handleSend}>
-            Save
+
+        <DialogFooter className="border-t border-gray-200 pt-4">
+          <Button variant="outline" onClick={() => setOpen(false)} className="text-gray-700 border-gray-300 hover:bg-gray-50">
+            Cancel
+          </Button>
+          <Button onClick={handleSend} disabled={sending} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6">
+            {sending ? "Saving..." : "Save Referral"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -18,7 +18,7 @@ export async function offerHandler(req: NextApiRequest, res: NextApiResponse) {
       });
     } else {
       const urlBoncom = `https://referralmanager.churchofjesuschrist.org/services/ad-content/${id}`;
-      const boncom = await fetchChurchServer<OfferItemProps[]>(urlBoncom, refreshToken, churchId);
+      const boncom = await fetchChurchServer<OfferItemProps[]>(urlBoncom, refreshToken);
       res.status(200).json({
         offer: boncom,
       });

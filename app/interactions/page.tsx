@@ -9,19 +9,19 @@ import getUserSettings from "./api/getUserSettings";
 import PageComponent from "./PageComponent";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ refreshToken?: string; churchId?: string }> }) {
-  const { refreshToken, churchId } = await searchParams;
-  if (!refreshToken || !churchId) {
+  const { refreshToken } = await searchParams;
+  if (!refreshToken) {
     redirect("/");
   }
 
   const [firebaseConnection, users, areas, uba, offers, stopReasons, userSettings] = await Promise.all([
-    getFirebaseConnection(refreshToken, churchId),
+    getFirebaseConnection(refreshToken),
     getUsers(),
     getAreas(),
     getUba(),
     getOffers(),
     getStopReasons(),
-    getUserSettings(refreshToken, churchId),
+    getUserSettings(refreshToken),
   ]);
 
   if (!firebaseConnection || !users || !areas || !uba || !offers || !stopReasons || !userSettings) {
@@ -30,7 +30,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ r
 
   return (
     <PageComponent
-      churchId={churchId}
       areas={areas}
       offers={offers}
       stopTeachingReasons={stopReasons}

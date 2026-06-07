@@ -8,56 +8,56 @@ import { Button } from "@/components/ui/button";
 
 export default function Page() {
   const [refreshToken, setRefreshToken] = useState("");
-  const [churchId, setChurchId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    if (refreshToken.length < 10 || churchId.length < 10) {
-      setDisabled(true);
-    } else setDisabled(false);
-  }, [refreshToken, churchId]);
+    setDisabled(refreshToken.length < 10);
+  }, [refreshToken]);
 
-  const handleRedirect = () => {
+  const handleRedirect = async () => {
+    setIsLoading(true);
     setDisabled(true);
-    router.replace(`/interactions?refreshToken=${refreshToken}&churchId=${churchId}`);
+    router.replace(`/interactions?refreshToken=${refreshToken}`);
   };
 
   return (
     <div className={styles.container}>
-      <div id="form" className="grid gap-5">
-        <div className="grid max-w-sm items-center gap-1.5">
-          <Label className=" text-lg text-white font-semibold" htmlFor="refreshToken">
-            REFRESH TOKEN
-          </Label>
-          <Input
-            className="w-[300px] text-white !placeholder-white  focus-visible:ring-1 focus-visible:ring-[#95C168]"
-            type="text"
-            placeholder="Cole refresh token aqui..."
-            value={refreshToken}
-            onChange={(e) => setRefreshToken(e.target.value)}
-          />
-        </div>
-        <div className="grid max-w-sm items-center gap-1.5">
-          <Label className=" text-lg text-white font-semibold" htmlFor="churchId">
-            CHURCH ID
-          </Label>
-          <div className="relative w-full">
-            <Input
-              className="w-[300px] text-white !placeholder-white  focus-visible:ring-1 focus-visible:ring-[#95C168]"
-              placeholder="Cole chuch id token aqui..."
-              value={churchId}
-              onChange={(e) => setChurchId(e.target.value)}
-            />
+      <div className={styles.content}>
+        <div className={styles.card}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>Referral Manager</h1>
+            <p className={styles.subtitle}>Insira seu token de autenticação para continuar</p>
           </div>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleRedirect();
+            }}
+            className={styles.form}
+          >
+            <div className={styles.formGroup}>
+              <Label htmlFor="refreshToken" className={styles.label}>
+                Token de Autenticação
+              </Label>
+              <Input
+                id="refreshToken"
+                type="password"
+                placeholder="Cole seu refresh token aqui..."
+                value={refreshToken}
+                onChange={(e) => setRefreshToken(e.target.value)}
+                className={styles.input}
+                disabled={isLoading}
+              />
+            </div>
+
+            <Button type="submit" disabled={disabled || isLoading} className={styles.button}>
+              {isLoading ? "Entrando..." : "Entrar"}
+            </Button>
+          </form>
         </div>
-        <Button
-          className="w-[300px] cursor-pointer text-[var(--header)] bg-white hover:bg-white rounded-[3px]  font-semibold text-sm"
-          disabled={disabled}
-          onClick={handleRedirect}
-        >
-          Entrar
-        </Button>
       </div>
     </div>
   );

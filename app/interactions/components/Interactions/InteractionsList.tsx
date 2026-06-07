@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import styles from "@/app/interactions/unassigned.module.css";
 
 type PageProps = {
   children: ReactNode;
@@ -7,10 +6,17 @@ type PageProps = {
 
 function InteractionsList({ children }: PageProps) {
   return (
-    <div className={styles.containerClaimed}>
-      <span className="text-[#4f5151ff] ">NÃO DESIGNADAS</span>
-      <ol className="flex flex-row gap-2 overflow-x-auto pb-2 mt-2">{children}</ol>
-    </div>
+    <section className="px-4 md:px-6 py-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-4">
+          <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Não Designadas</h3>
+          <div className="h-0.5 w-12 bg-blue-600 mt-2"></div>
+        </div>
+        <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+          <ol className="flex flex-row gap-3 pb-4">{children}</ol>
+        </div>
+      </div>
+    </section>
   );
 }
 

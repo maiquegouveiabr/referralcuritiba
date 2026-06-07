@@ -1,10 +1,10 @@
 import { fetchChurchServer } from "@/util/api/fetchChurchServer";
 import { AgentProfile } from "./interfaces";
 
-async function getUserSettings(refreshToken: string, churchId: string): Promise<AgentProfile | null> {
+async function getUserSettings(refreshToken: string): Promise<AgentProfile | null> {
   try {
     const url = "https://referralmanager.churchofjesuschrist.org/services/interactions/user/settings";
-    const userSettings = (await fetchChurchServer(url, refreshToken, churchId)) as AgentProfile;
+    const userSettings = (await fetchChurchServer(url, refreshToken)) as AgentProfile;
 
     if (!userSettings) {
       throw new Error("Failed fetching userSettings from church server.");

@@ -8,17 +8,17 @@ import { handleDiscardInteraction } from "../lib/interactions/handleDiscardInter
 import { handleFetchEvent } from "../lib/events/handleFetchEvent";
 import { handleFetchOffer } from "../lib/offers/handleFetchOffer";
 import { PageStateProps } from "./useInteractionsPageState";
+import { handleFetchTeachingArea } from "../lib/teachingArea/handleFetchTeachingArea";
 
 type Props = {
   state: PageStateProps;
   userSettings: AgentProfile;
   firebaseConnection: FastifyFirebaseConnection;
   refreshToken: string;
-  churchId: string;
   setClaimedInteractions: Dispatch<SetStateAction<Interaction[]>>;
 };
 
-export function useInteractionActions({ state, userSettings, firebaseConnection, refreshToken, churchId, setClaimedInteractions }: Props) {
+export function useInteractionActions({ state, userSettings, firebaseConnection, refreshToken, setClaimedInteractions }: Props) {
   const handleDialogOpen = async (interaction: Interaction) => {
     const res = await fetch(`/api/db/referralExist?id=${interaction.requestConfirmation.personGuid}`);
     const data = (await res.json()) as {
@@ -36,7 +36,7 @@ export function useInteractionActions({ state, userSettings, firebaseConnection,
               wasSent: true,
             };
           } else return item;
-        })
+        }),
       );
       return alert(`Essa referência foi enviada por (${data.whoSent})!`);
     }
@@ -55,7 +55,7 @@ export function useInteractionActions({ state, userSettings, firebaseConnection,
             wasSent: true,
           };
         } else return item;
-      })
+      }),
     );
   };
 
@@ -68,8 +68,10 @@ export function useInteractionActions({ state, userSettings, firebaseConnection,
 
     discard: (interaction: Interaction) => handleDiscardInteraction(interaction, userSettings, firebaseConnection),
 
-    fetchEvent: (interaction: Interaction) => handleFetchEvent(interaction.requestConfirmation.personGuid, refreshToken, churchId, setClaimedInteractions),
+    fetchEvent: (interaction: Interaction) => handleFetchEvent(interaction.requestConfirmation.personGuid, refreshToken, setClaimedInteractions),
 
-    fetchOffer: (interaction: Interaction) => handleFetchOffer(interaction, refreshToken, churchId, setClaimedInteractions),
+    fetchOffer: (interaction: Interaction) => handleFetchOffer(interaction, refreshToken, setClaimedInteractions),
+
+    fetchTeachingArea: (interaction: Interaction) => handleFetchTeachingArea(interaction, refreshToken, setClaimedInteractions),
   };
 }

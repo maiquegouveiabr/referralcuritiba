@@ -13,33 +13,76 @@ type Props = {
   onDiscard: () => void;
   onOffer: () => void;
   onOpenDialog: () => void;
+  onFetchTeachingArea: () => void;
 };
 
-function InteractionItemClaimed({ interaction, onEvent, onDiscard, onOffer, onOpenDialog }: Props) {
+function InteractionItemClaimed({ interaction, onEvent, onDiscard, onOffer, onOpenDialog, onFetchTeachingArea }: Props) {
   const events = interaction.events && interaction.events.filter((item) => item.timelineItemType === "CONTACT" || item.timelineItemType === "TEACHING");
 
   return (
-    <li className="w-fit p-2 border rounded">
-      <div className="flex flex-col gap-1">
-        <RunningClock start={new Date(interaction.startTimestamp)} />
-        <span className="text-[9px]">{timestampToDate(interaction.startTimestamp, true)}</span>
-        <span className="text-[11px] font-semibold">
-          <a target="_blank" href={`https://referralmanager.churchofjesuschrist.org/interactions/current/${interaction.id}`}>
+    <li className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 w-full max-w-sm">
+      <div className="flex flex-col gap-4">
+        {/* Header Section */}
+        <div className="border-b border-gray-100 pb-3">
+          <div className="flex items-center justify-between mb-2">
+            <RunningClock start={new Date(interaction.startTimestamp)} />
+            <span className="text-xs text-gray-500">{timestampToDate(interaction.startTimestamp, true)}</span>
+          </div>
+          <a
+            target="_blank"
+            href={`https://referralmanager.churchofjesuschrist.org/interactions/current/${interaction.id}`}
+            className="text-sm font-semibold text-blue-600 hover:text-blue-800 hover:underline block mb-2 truncate"
+          >
             {interaction.requestConfirmation.name}
           </a>
-        </span>
+        </div>
 
-        <span className="text-[11px]">{interaction.requestConfirmation.phoneNumber}</span>
-        <span className="text-[11px]">{interaction.requestConfirmation.address}</span>
-        {interaction.suggestedArea && interaction.suggestedArea.proselytingAreas && interaction.suggestedArea.proselytingAreas.length > 0 && (
-          <span className="text-[11px] font-semibold">Área Sugerida [{interaction.suggestedArea.proselytingAreas[0].name}]</span>
+        {/* Contact Information */}
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 min-h-5">
+            <span className="text-xs font-medium text-gray-600 min-w-20">Telefone:</span>
+            <span className="text-sm text-gray-800 break-all line-clamp-2">{interaction.requestConfirmation.phoneNumber}</span>
+          </div>
+          <div className="flex items-start gap-2 min-h-5">
+            <span className="text-xs font-medium text-gray-600 min-w-20">Endereço:</span>
+            <span className="text-sm text-gray-800 break-words line-clamp-3">{interaction.requestConfirmation.address}</span>
+          </div>
+        </div>
+
+        {/* Suggested Area */}
+        {interaction.suggestedArea?.proselytingAreas && interaction.suggestedArea.proselytingAreas.length > 0 && (
+          <div className="bg-blue-50 border border-blue-200 rounded px-3 py-2">
+            <span className="text-xs font-semibold text-blue-900 line-clamp-2 break-words">
+              Área Sugerida: {interaction.suggestedArea.proselytingAreas[0].name}
+            </span>
+          </div>
         )}
-        {events && events.length > 0 && <EventList events={events} />}
-        {events && events.length === 0 && <span className="text-[11px] italic text-gray-500">Nenhum evento encontrado.</span>}
-        {(interaction.offer || interaction.personOffer) && <OfferComponent interaction={interaction} />}
+
+        {/* Events Section */}
+        {events && events.length > 0 && (
+          <div className="border-t border-gray-100 pt-3">
+            <EventList events={events} />
+          </div>
+        )}
+        {events && events.length === 0 && (
+          <p className="text-xs italic text-gray-400 text-center py-2">Nenhum evento encontrado.</p>
+        )}
+
+        {/* Offer Section */}
+        {(interaction.offer || interaction.personOffer) && (
+          <div className="border-t border-gray-100 pt-3">
+            <OfferComponent interaction={interaction} />
+          </div>
+        )}
       </div>
 
-      <div className="mt-2 flex flex-row gap-2">
+      {/* Action Buttons */}
+      <div className="mt-4 pt-4 border-t border-gray-100 flex flex-wrap gap-2">
+        {!interaction.suggestedArea && (
+          <Button containerStyle={{ backgroundColor: "#59dd59ff" }} onClick={onFetchTeachingArea}>
+            FETCH AREA
+          </Button>
+        )}
         {!interaction.offer && !interaction.personOffer && (
           <Button containerStyle={{ backgroundColor: "#bcdd59ff" }} onClick={onOffer}>
             OFFER
@@ -55,7 +98,7 @@ function InteractionItemClaimed({ interaction, onEvent, onDiscard, onOffer, onOp
         </Button>
         {!interaction.wasSent && (
           <Button containerStyle={{ backgroundColor: "#ffe8a3ff" }} onClick={onOpenDialog}>
-            <Send style={{ color: "#ebb105ff" }} />
+            <Send size={16} style={{ color: "#ebb105ff" }} />
           </Button>
         )}
         {interaction.wasSent && <CopyButton interaction={interaction} />}

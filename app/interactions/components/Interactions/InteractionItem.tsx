@@ -1,6 +1,5 @@
 import type { Interaction } from "@/hooks/interfaces";
 import RunningClock from "./RunningClock";
-import Button from "@/components/Button";
 import timestampToDate from "@/util/timestampToDate";
 
 type Props = {
@@ -10,22 +9,20 @@ type Props = {
 
 function InteractionItem({ data, onClaim }: Props) {
   return (
-    <li className="min-w-fit  p-2 border rounded">
-      <div className="flex flex-col gap-1">
+    <li className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow p-3 w-full max-w-sm min-w-64 flex flex-col">
+      <div className="flex flex-col gap-1 flex-1">
         <RunningClock start={new Date(data.assignment.assignedTimestamp)} />
-        <span className="text-[9px]">{timestampToDate(data.startTimestamp, true)}</span>
-        <span className="text-[11px] font-semibold">{data.requestConfirmation.name}</span>
-        <span className="text-[11px]">{data.requestConfirmation.phoneNumber}</span>
-        <span className="text-[11px]">{data.requestConfirmation.address}</span>
+        <span className="text-xs text-gray-500">{timestampToDate(data.startTimestamp, true)}</span>
+        <span className="text-sm font-semibold text-gray-900 truncate">{data.requestConfirmation.name}</span>
+        <span className="text-sm text-gray-700 truncate">{data.requestConfirmation.phoneNumber}</span>
+        <span className="text-sm text-gray-700 line-clamp-2">{data.requestConfirmation.address}</span>
       </div>
-      <div>
-        <Button
-          containerStyle={{ borderStyle: "solid", borderWidth: "2px", borderColor: "#59b3ddff", color: "#59b3ddff", marginTop: "0.8rem" }}
-          onClick={onClaim}
-        >
-          CLAIM
-        </Button>
-      </div>
+      <button
+        onClick={onClaim}
+        className="w-full mt-3 px-3 py-1.5 border-2 border-blue-400 text-blue-500 font-semibold text-sm rounded-lg hover:bg-blue-50 transition-colors cursor-pointer"
+      >
+        CLAIM
+      </button>
     </li>
   );
 }

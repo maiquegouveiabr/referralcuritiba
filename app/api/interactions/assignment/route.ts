@@ -5,21 +5,19 @@ import { NextResponse } from "next/server";
 type BodyProps = {
   address: string;
   refreshToken: string;
-  churchId: string;
 };
 
 export async function POST(req: Request) {
   try {
-    const { address, refreshToken, churchId }: BodyProps = await req.json();
+    const { address, refreshToken }: BodyProps = await req.json();
 
-    if (!address || !refreshToken || !churchId) {
+    if (!address || !refreshToken) {
       throw new Error("MISSING_PARAMS");
     }
 
     const assignment = await fetchChurchServer<AreaInfo>(
       `https://referralmanager.churchofjesuschrist.org/services/mission/assignment?address=${address}`,
       refreshToken,
-      churchId
     );
 
     if (assignment) {
